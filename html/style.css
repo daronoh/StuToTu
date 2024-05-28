@@ -1,0 +1,126 @@
+* {
+    font-family: 'PT Sans', 'PT Serif', 'Figtree', 'Figtree-fallback', 'Figtree-fallback-android', 'Noto Sans', 'NotoSans-fallback', 'NotoSans-fallback-android';
+}
+
+body {
+    min-height: 100vh;
+    background-image: url(background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+nav {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    min-height: 100vh;
+}
+
+.signup-box {
+    background-color: rgb(243, 251, 250);
+    width: 500px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-header {
+    text-align: center;
+    font-weight: 300px;
+    margin-bottom: 25px;
+}
+
+.signup-field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.signup-label {
+    position: absolute;
+    left: 15px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+    transition: 0.5s ease;
+    pointer-events: none;
+}
+
+.form-control:focus ~ .signup-label,
+.form-control:not(:placeholder-shown) ~ .signup-label {
+    top: -10px;
+    left: 10px;
+    font-size: 13px;
+    color: #007bff;
+}
+
+.form-control {
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+    padding-left: 15px;
+    color: #40414a;
+}
+
+.form-control:focus {
+    background: transparent;
+    border-bottom: 1px solid #007bff;
+    box-shadow: none;
+}
+
+.btn-color {
+    background-color: azure;
+    border: none;
+}
+
+.checkbox-label {
+    cursor: pointer;
+}
+
+.checkbox {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-group {
+    text-align: center; 
+    display: block;
+    margin: 10px auto;
+}
+
+.btn-primary {
+    --bs-btn-padding-y: 5px; 
+    --bs-btn-padding-x: 10px;
+    --bs-btn-font-size: 15px;
+}
+
+.login {
+    text-align: center;
+}
+
+.login span {
+    font-weight: 200;
+    color: #40414a;
+}
+
+.login a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}
