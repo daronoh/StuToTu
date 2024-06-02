@@ -46,6 +46,15 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+   			<groupId>com.google.cloud.sql</groupId>
+    		<artifactId>postgres-socket-factory</artifactId>
+    		<version>1.0.15</version> <!-- Replace with the latest version -->
+		</dependency>
 	</dependencies>
 
 	<build>

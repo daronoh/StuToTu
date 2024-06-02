@@ -1,7 +1,7 @@
 {
   "name": "stutotu",
   "version": "0.1.0",
-  "proxy": "http://localhost:3500",
+  "proxy": "https://stutotu.et.r.appspot.com/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

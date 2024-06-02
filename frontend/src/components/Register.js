@@ -89,7 +89,7 @@ const Register = () => {
                 <div>
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a> // for react router link
+                        <a href="/">Sign In</a> // for react router link
                     </p>
                 </div>
             ) : (

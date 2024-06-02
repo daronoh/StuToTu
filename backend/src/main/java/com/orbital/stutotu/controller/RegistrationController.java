@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orbital.stutotu.model.Registration;
 import com.orbital.stutotu.repository.RegistrationRepository;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://stutotu.netlify.app/")
 @RestController
 public class RegistrationController {
 
