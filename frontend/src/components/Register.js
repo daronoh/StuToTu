@@ -78,7 +78,7 @@ const Register = () => {
             } else {
                 setErrMsg('Registration failed')
             }
-            // errRef.current.focus();
+            errRef.current.focus();
         }
     }
 
@@ -86,7 +86,7 @@ const Register = () => {
         <>
         {
             success ? (
-                <div>
+                <div id="success">
                     <h1>Success!</h1>
                     <p>
                         <a href="/">Sign In</a> // for react router link
