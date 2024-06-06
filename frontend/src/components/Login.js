@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import AuthContext from "./context/AuthProvider";
+import AuthContext from "../context/AuthProvider";
+import axios from '../api/axios';
 
+const LOGIN_URL = '/auth'
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -22,9 +24,33 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setUser('');
-        setPwd('');
-        setSuccess(true);
+
+        try {
+            const response = await axios.post(LOGIN_URL, 
+                JSON.stringify({username: user, password: pwd}),
+                {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }
+            );
+            const accessToken = response?.data?.accessToken; // probably need to implement this in the backend, need to learn
+            // const roles = response?.data?.roles; // not too sure if this is useful for this proj
+            setAuth({user, pwd, accessToken});
+            setUser('');
+            setPwd('');
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Invalid')
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
+        }
     }
 
     return (
