@@ -1,7 +1,5 @@
 package com.orbital.stutotu.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +16,6 @@ import com.orbital.stutotu.repository.RegistrationRepository;
 @RestController
 public class RegistrationController {
 
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-
     @Autowired
     private RegistrationRepository registrationRepository;
 
@@ -30,9 +26,6 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
 
-        logger.info("Received username: {}", user.getUsername());
-        logger.info("Received password: {}", user.getPassword());
-        // Your registration logic here
         Registration registration = new Registration();
         registration.setUsername(user.getUsername());
         registration.setPassword(user.getPassword());
