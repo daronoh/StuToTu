@@ -1,22 +1,14 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import AuthContext from "../context/AuthProvider";
+import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 
-const LOGIN_URL = '/auth'
+const LOGIN_URL = '/auth';
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
-    const userRef = useRef();
-    const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-
-    useEffect(() => {
-        userRef.current.focus();
-    }, [])
 
     useEffect(() => {
         setErrMsg('');
@@ -33,9 +25,6 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            const accessToken = response?.data?.accessToken; // probably need to implement this in the backend, need to learn
-            // const roles = response?.data?.roles; // not too sure if this is useful for this proj
-            setAuth({user, pwd, accessToken});
             setUser('');
             setPwd('');
             setSuccess(true);
@@ -49,7 +38,6 @@ const Login = () => {
             } else {
                 setErrMsg('Login Failed');
             }
-            errRef.current.focus();
         }
     }
 
@@ -60,12 +48,12 @@ const Login = () => {
                     <h1>Success!</h1>
                     <br />
                     <p>
-                        <a href='/'>Go to Home</a>
+                        <a href='/home'>Go to Home</a>
                     </p>
                 </div>
             ) : (
         <div>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>   
+            <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>   
             <h1>StuToTu</h1>
             <h2>Sign In</h2> 
             <form onSubmit={handleSubmit}>
@@ -73,7 +61,6 @@ const Login = () => {
                 <input 
                     type="text" 
                     id ="username"
-                    ref={userRef}
                     autoComplete='off'
                     onChange={(e) => setUser(e.target.value)}
                     value={user}

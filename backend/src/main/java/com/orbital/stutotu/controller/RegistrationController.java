@@ -1,36 +1,44 @@
 package com.orbital.stutotu.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orbital.stutotu.model.Registration;
-import com.orbital.stutotu.repository.RegistrationRepository;
+import com.orbital.stutotu.model.Profile;
+import com.orbital.stutotu.repository.UserRepository;
 
 // @CrossOrigin(origins = "https://stutotu.netlify.app/")
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class RegistrationController {
 
+     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
     @Autowired
-    private RegistrationRepository registrationRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody Registration user) {
+    public ResponseEntity<?> registerUser(@RequestBody Profile user) {
 
-        if (registrationRepository.existsByUsername(user.getUsername())) {
+        logger.debug("Registering user: {}", user.getUsername());
+
+        if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
 
-        Registration registration = new Registration();
-        registration.setUsername(user.getUsername());
-        registration.setPassword(user.getPassword());
+        Profile saveUser = new Profile(user.getUsername(), passwordEncoder.encode(user.getPassword()));
 
-        registrationRepository.save(registration);
+        userRepository.save(saveUser);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }

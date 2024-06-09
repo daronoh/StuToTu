@@ -1,5 +1,6 @@
 package com.orbital.stutotu.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,22 +11,21 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Registration {
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
     private String password;
 
-    public Registration() {
+    public Profile() {
     }
 
-    public Registration(String username, String password) {
+    public Profile(String username, String password) {
         this.username = username;
         this.password = password;
     }
-
-
 }
