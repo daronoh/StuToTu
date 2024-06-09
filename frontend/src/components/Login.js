@@ -34,7 +34,7 @@ const Login = () => {
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Username or Password');
             } else if (err.response?.status === 401) {
-                setErrMsg('Invalid')
+                setErrMsg('Username or Password does not exist');
             } else {
                 setErrMsg('Login Failed');
             }
