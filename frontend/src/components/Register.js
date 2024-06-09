@@ -9,8 +9,6 @@ const PWD_REGEX = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,24}$/;
 const REGISTER_URL = '/register';
 
 const Register = () => {
-    const userRef = useRef();
-    const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -26,10 +24,6 @@ const Register = () => {
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-
-    useEffect(() => {
-        userRef.current.focus();
-    }, [])
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
@@ -77,7 +71,6 @@ const Register = () => {
             } else {
                 setErrMsg('Registration failed')
             }
-            errRef.current.focus();
         }
     }
 
@@ -88,12 +81,12 @@ const Register = () => {
                 <div id="success">
                     <h1>Success!</h1>
                     <p>
-                        <a href="/">Sign In</a> // for react router link
+                        <a href="/">Sign In</a>
                     </p>
                 </div>
             ) : (
         <div>
-            <p pref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <h1>StuToTu</h1>
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
@@ -109,7 +102,6 @@ const Register = () => {
                 <input
                     type="text"
                     id="username"
-                    ref={userRef}
                     autoComplete="off"
                     onChange={(e) => setUser(e.target.value)}
                     required
@@ -172,10 +164,9 @@ const Register = () => {
                 <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
             </form>
             <p id="signin">
-                Already registered?<br />
+                Have an account?<br />
                 <span className="line">
-                    {/*put sign-in router link here*/}
-                    <a href="#">Sign In</a>
+                    <a href="/">Sign In</a>
                 </span>
             </p>
         </div>
