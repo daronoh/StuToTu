@@ -25,6 +25,8 @@ const Login = () => {
                     withCredentials: true
                 }
             );
+            // Store JWT token in local storage or cookie
+            localStorage.setItem('token', response.data);
             setUser('');
             setPwd('');
             setSuccess(true);

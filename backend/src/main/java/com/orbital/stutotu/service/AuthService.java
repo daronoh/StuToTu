@@ -15,7 +15,7 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    
     // Method to authenticate user credentials
     public boolean authenticate(String username, String password) {
         Profile user = registrationRepository.findByUsername(username);
