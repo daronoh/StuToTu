@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const LOGIN_URL = '/auth';
 
 const Login = () => {
+    const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/home";
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         setErrMsg('');
@@ -26,10 +32,12 @@ const Login = () => {
                 }
             );
             // Store JWT token in local storage or cookie
-            localStorage.setItem('token', response.data);
+            console.log(JSON.stringify(response?.data));
+            const accessToken = response?.data?.accessToken;
+            setAuth({ user, pwd, accessToken});
             setUser('');
             setPwd('');
-            setSuccess(true);
+            navigate(from, { replace: true});
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -44,16 +52,6 @@ const Login = () => {
     }
 
     return (
-        <>
-            {success ? (
-                <div id = "success">
-                    <h1>Success!</h1>
-                    <br />
-                    <p>
-                        <a href='/home'>Go to Home</a>
-                    </p>
-                </div>
-            ) : (
         <div>
             <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>   
             <h1>StuToTu</h1>
@@ -87,8 +85,6 @@ const Login = () => {
                 </span>
             </p>
         </div>
-            )}
-            </>
     )
 }
 

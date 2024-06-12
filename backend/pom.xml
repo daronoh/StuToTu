@@ -25,7 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -41,7 +40,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+			<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
@@ -56,14 +55,9 @@
     		<version>1.0.15</version> <!-- Replace with the latest version -->
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-			<version>5.5.1</version>
-		</dependency>
-		<dependency>
-    		<groupId>io.jsonwebtoken</groupId>
-    		<artifactId>jjwt-api</artifactId>
-    		<version>0.11.2</version>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -77,19 +71,17 @@
 			<version>0.11.2</version>
 			<scope>runtime</scope>
 		</dependency>
-	
-   <dependency>
-     <groupId>org.apache.commons</groupId>
-     <artifactId>commons-lang3</artifactId>
-     <version>3.9</version>
-   </dependency>
- 
-   <dependency>
-     <groupId>org.clojure</groupId>
-     <artifactId>clojurescript</artifactId>
-     <version>1.10.520</version>
-   </dependency>
- </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version> <!-- Or the latest version -->
+			<scope>provided</scope>
+		</dependency>
+ 	</dependencies>
 
 	<build>
 		<plugins>

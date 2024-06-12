@@ -166,7 +166,7 @@ const Register = () => {
             <p id="signin">
                 Have an account?<br />
                 <span className="line">
-                    <a href="/">Sign In</a>
+                    <a href="/login">Sign In</a>
                 </span>
             </p>
         </div>
