@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth';
 const LOGIN_URL = '/auth';
 
 const Login = () => {
-    const { setAuth } = useAuth();
+    const { setToken } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -34,7 +34,7 @@ const Login = () => {
             // Store JWT token in local storage or cookie
             console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.accessToken;
-            setAuth({ user, pwd, token: accessToken});
+            setToken({ user, pwd, token: accessToken});
             setUser('');
             setPwd('');
             navigate(from, { replace: true});
