@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import useAuth from '../hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const LOGIN_URL = '/auth';
 
@@ -34,7 +34,7 @@ const Login = () => {
             // Store JWT token in local storage or cookie
             console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.accessToken;
-            setAuth({ user, pwd, accessToken});
+            setAuth({ user, pwd, token: accessToken});
             setUser('');
             setPwd('');
             navigate(from, { replace: true});

@@ -33,13 +33,11 @@ export const AuthProvider = ({ children }) => {
             }
             return config;
         },
-        error => {
-            return Promise.reject(error);
-        }
+        error => Promise.reject(error)
     );
 
     return (
-        <AuthContext.Provider value = {{ auth, setAuth}}>
+        <AuthContext.Provider value = {{ auth, setAuth, setToken, getToken}}>
             {children}
         </AuthContext.Provider>
     )
