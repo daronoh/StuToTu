@@ -5,12 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Profile {
 
     @Id
@@ -19,10 +23,17 @@ public class Profile {
 
     @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
-    public Profile() {
-    }
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String gender;
 
     public Profile(String username, String password) {
         this.username = username;
