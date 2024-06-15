@@ -1,13 +1,13 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
 import Layout from './components/Layout';
 import Login from "./components/Login";
-import Register from './components/Register';
-import Home from './components/Home';
 import Missing from './components/Missing';
-import Unauthorized from './components/Unauthorized';
-import RequireAuth from './components/RequireAuth';
 import ProfileEdit from './components/ProfileEdit';
+import Register from './components/Register';
+import RequireAuth from './components/RequireAuth';
+import Unauthorized from './components/Unauthorized';
 
 
 function App() {
