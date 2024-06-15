@@ -59,6 +59,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username:</label>
                 <input 
+                    className='textbox'
                     type="text" 
                     id ="username"
                     autoComplete='off'
@@ -69,6 +70,7 @@ const Login = () => {
 
                 <label htmlFor="password">Password:</label>
                 <input 
+                    className='textbox'
                     type="password" 
                     id ="password"
                     onChange={(e) => setPwd(e.target.value)}

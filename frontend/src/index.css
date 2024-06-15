@@ -30,17 +30,6 @@ body {
   padding: 1rem 0.5rem;
 }
 
-div {
-  position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-h1, h2 {
-  text-align: center;
-}
-
 form {
     display: flex;
     flex-direction: column;
@@ -53,8 +42,7 @@ a, a:visited {
     color: black;
 }
 
-input[type="text"],
-input[type="password"],
+.textbox,
 button,
 textarea {
   font-family: 'Nunito', sans-serif;
@@ -63,7 +51,6 @@ textarea {
   border-radius: 0.5rem;
 }
 
-label,
 button {
   margin-top: 1rem;
 }
@@ -123,4 +110,14 @@ button {
 
 #success {
   text-align: center;
+}
+
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  text-align: center;
+  gap: 0.5rem;
 }

@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
+import ProfileEdit from './components/ProfileEdit';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         {}
         <Route element={<RequireAuth />}>
         <Route path = "Home" element={<Home />} />
+        <Route path = "ProfileEdit" element={<ProfileEdit />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

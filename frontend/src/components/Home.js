@@ -41,6 +41,7 @@ const Home = () => {
              <p>Home</p>
              <input
                 type="text"
+                className='textbox'
                 value={searchQuery}
                 onChange={handleSearchInputChange}
                 placeholders="Search profiles..."
@@ -58,7 +59,9 @@ const Home = () => {
             ) : (
                 <p>No results found.</p>
             )}
-            <a href="/unauthorized">test</a>
+            <a href="/unauthorized">unauthorized</a>
+            <br />
+            <a href="/profileedit">edit profile</a>
              </div>
     
     );

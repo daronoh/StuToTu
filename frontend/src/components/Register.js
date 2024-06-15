@@ -59,7 +59,9 @@ const Register = () => {
             const response = await axios.post(REGISTER_URL, 
                 JSON.stringify({username: user, password: pwd}),
                 {
-                    headers: { 'Content-Type': 'application/json'},
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
                     withCredentials: true
                 });
                 setSuccess(true);
@@ -102,6 +104,7 @@ const Register = () => {
                 <input
                     type="text"
                     id="username"
+                    className='textbox'
                     autoComplete="off"
                     onChange={(e) => setUser(e.target.value)}
                     required
@@ -124,6 +127,7 @@ const Register = () => {
                 <input
                     type="password"
                     id="password"
+                    className='textbox'
                     onChange={(e) => setPwd(e.target.value)}
                     value={pwd}
                     required
@@ -147,6 +151,7 @@ const Register = () => {
                 <input
                     type="password"
                     id="confirm_pwd"
+                    className='textbox'
                     onChange={(e) => setMatchPwd(e.target.value)}
                     value={matchPwd}
                     required

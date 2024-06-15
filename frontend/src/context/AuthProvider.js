@@ -25,17 +25,6 @@ export const AuthProvider = ({ children }) => {
         return localStorage.getItem('token');
     };
 
-    axios.interceptors.request.use(
-        config => {
-            const token = getToken();
-            if (token) {
-                config.headers['Authorization'] = `Bearer ${token}`;
-            }
-            return config;
-        },
-        error => Promise.reject(error)
-    );
-
     return (
         <AuthContext.Provider value = {{ auth, setAuth, setToken, getToken}}>
             {children}
