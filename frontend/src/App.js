@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Layout from './components/Layout';
 import Login from "./components/Login";
 import Missing from './components/Missing';
+import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import Register from './components/Register';
 import RequireAuth from './components/RequireAuth';
@@ -21,6 +22,8 @@ function App() {
         {}
         <Route element={<RequireAuth />}>
         <Route path = "Home" element={<Home />} />
+        <Route path = "Profile" element={<Profile />} />
+        <Route path = "Profile/:userId" element={<Profile />} />
         <Route path = "ProfileEdit" element={<ProfileEdit />} />
         </Route>
         {}

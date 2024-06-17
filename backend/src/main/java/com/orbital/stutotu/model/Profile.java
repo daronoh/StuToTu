@@ -35,6 +35,10 @@ public class Profile {
 
     private String gender;
 
+    private String profilePicture;
+
+    private String description;  
+
     public Profile(String username, String password) {
         this.username = username;
         this.password = password;

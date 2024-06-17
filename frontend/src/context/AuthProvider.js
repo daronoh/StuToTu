@@ -1,12 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import axios from '../api/axios';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
         const token = localStorage.getItem('token');
-        return token ? { token } : {};
+        return token ? { token } : {token: null};
     });
 
     useEffect(() => {
@@ -17,12 +16,15 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const setToken = (token) => {
-        localStorage.setItem('token', token);
+        console.log(token);
+        localStorage.setItem('token', JSON.stringify(token));
         setAuth({ token });
     };
 
     const getToken = () => {
-        return localStorage.getItem('token');
+        const token = JSON.parse(localStorage.getItem('token'));
+        console.log(token);
+        return token;
     };
 
     return (
