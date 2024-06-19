@@ -13,12 +13,11 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const token = getToken().token; 
-                console.log(token);
+                const token = getToken(); 
                 const response = await axios.get(`/api/profiles/${username}`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
                 setProfileData(response.data);
                 setLoading(false);

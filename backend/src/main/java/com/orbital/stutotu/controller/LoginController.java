@@ -20,8 +20,8 @@ import com.orbital.stutotu.service.AuthService;
 // @CrossOrigin(origins = "https://stutotu.netlify.app/")
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/login")
+public class LoginController {
 
     @Autowired
     private AuthService authService;
@@ -37,6 +37,7 @@ public class AuthController {
             if (isAuthenticated) {
                 String token = jwtUtil.generateToken(loginRequest.getUsername());
                 Map<String, String> response = new HashMap<>();
+                // returning a map of string to string
                 response.put("accessToken", token);
                 return ResponseEntity.ok(response); // Successful authentication
             } else {

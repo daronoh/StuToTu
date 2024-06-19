@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 const Login = () => {
     const { setToken } = useAuth();
@@ -32,9 +32,8 @@ const Login = () => {
                 }
             );
             // Store JWT token in local storage or cookie
-            console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.accessToken;
-            setToken({ user, pwd, token: accessToken});
+            setToken(accessToken);
             setUser('');
             setPwd('');
             navigate(from, { replace: true});
