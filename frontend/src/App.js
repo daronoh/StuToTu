@@ -23,7 +23,7 @@ function App() {
         <Route element={<RequireAuth />}>
         <Route path = "Home" element={<Home />} />
         <Route path = "Profile" element={<Profile />} />
-        <Route path = "Profile/:userId" element={<Profile />} />
+        <Route path = "Profile/:username" element={<Profile />} />
         <Route path = "ProfileEdit" element={<ProfileEdit />} />
         </Route>
         {}

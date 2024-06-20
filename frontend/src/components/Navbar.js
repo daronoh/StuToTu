@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
+  const { getUser } = useAuth();
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ const Navbar = () => {
 
   const handleProfile = () => {
     // Replace with actual user ID or username
-    const userId = 'lilcici'; // Replace with logic to get current user ID
+    const userId = getUser(); // Replace with logic to get current user ID
 
     // Navigate to the profile page with the user ID parameter
     navigate(`/profile/${userId}`);
@@ -31,7 +33,7 @@ const Navbar = () => {
       <a href="/register" className="site-title">StuToTu</a>
       <ul className={`nav-links ${sideNavOpen ? 'hidden' : ''}`}>
         <li>
-          <a href="/Profile" onClick={handleProfile}>My Profile</a>
+          <a onClick={handleProfile}>My Profile</a>
         </li>
         <li>
           <a href="/Calendar">Shared Calendar</a>
@@ -46,7 +48,7 @@ const Navbar = () => {
       </nav>
       <div className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
         <button className="closebtn" onClick={toggleSideNav}>&times;</button>
-        <a href="/Profile">My Profile</a>
+        <a onClick={handleProfile}>My Profile</a>
         <a href="/Calendar">Shared Calendar</a>
         <a href="/Settings">Settings</a>
         <a href="/ProfileEdit">Edit Profile</a>

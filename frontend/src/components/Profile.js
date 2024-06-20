@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
-    const { auth , getToken } = useAuth(); 
+    const { getToken } = useAuth(); 
     const [profileData, setProfileData] = useState(null); // State to store profile data
     const [loading, setLoading] = useState(true); // State to manage loading state
 
@@ -14,10 +14,11 @@ const Profile = () => {
         const fetchProfileData = async () => {
             try {
                 const token = getToken(); 
+                const authStr = 'Bearer '.concat(token);
+                console.log(authStr);
                 const response = await axios.get(`/api/profiles/${username}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: {'Authorization': `Bearer ` + token},
+                    withCredentials: true
                 });
                 setProfileData(response.data);
                 setLoading(false);
@@ -28,7 +29,7 @@ const Profile = () => {
         };
 
         fetchProfileData();
-    }, [username, auth.token]); // Fetch profile data when username changes
+    }, [username, getToken]); // Fetch profile data when username changes
 
     if (loading) {
         return <div>Loading...</div>; 
