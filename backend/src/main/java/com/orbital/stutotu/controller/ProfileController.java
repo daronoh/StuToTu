@@ -51,6 +51,7 @@ public class ProfileController {
             profile.setGender(profileDetails.getGender());
             profile.setProfilePicture(profileDetails.getProfilePicture());
             profile.setDescription(profileDetails.getDescription());
+            profile.setSubjects(profileDetails.getSubjects());
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);
