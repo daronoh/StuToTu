@@ -24,7 +24,7 @@ function App() {
         <Route path = "Home" element={<Home />} />
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
-        <Route path = "ProfileEdit" element={<ProfileEdit />} />
+        <Route path = "Profile/Edit/:username" element={<ProfileEdit />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

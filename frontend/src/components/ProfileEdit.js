@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Box, TextField, FormControl, InputLabel, Select, MenuItem, OutlinedInput, Button } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const PROFILEEDIT_URL = '/profileedit';
 
@@ -25,6 +27,10 @@ const subjects = [
 ];
 
 const ProfileEdit = () => {
+    const navigate = useNavigate();
+    const { username } = useParams(); // Access the username parameter from the route
+    const { getToken } = useAuth(); 
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -38,7 +44,8 @@ const ProfileEdit = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(PROFILEEDIT_URL, 
+            const token = getToken(); 
+            const response = await axios.put(`/api/profile/edit/${username}`, 
                 JSON.stringify({
                     firstName: firstName,
                     lastName: lastName,
@@ -49,18 +56,18 @@ const ProfileEdit = () => {
                     description: description
                 }),
                 {
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${token}`},
                     withCredentials: true
-                }
-            );
-           
+                });
+            navigate(`/profile/${username}`);
         } catch (err) {
             setErrMsg('Failed to update');
         }
     }
 
     return (
-        <div>
+        <div style={{marginTop: 70}}>
         <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         <form onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>

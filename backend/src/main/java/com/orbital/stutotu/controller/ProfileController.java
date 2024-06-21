@@ -37,7 +37,7 @@ public class ProfileController {
     }
 
     // Update profile information
-    @PutMapping("/{username}")
+    @PutMapping("/edit/{username}")
     public ResponseEntity<Profile> updateProfile(@PathVariable String username, @RequestBody Profile profileDetails) {
         Profile profile = userRepository.findByUsername(username);
         if (profile == null) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 
@@ -16,8 +16,8 @@ const Profile = () => {
                 const token = getToken(); 
                 const authStr = 'Bearer '.concat(token);
                 console.log(authStr);
-                const response = await axios.get(`/api/profiles/${username}`, {
-                    headers: {'Authorization': `Bearer ` + token},
+                const response = await axios.get(`/api/profile/${username}`, {
+                    headers: {'Authorization': authStr},
                     withCredentials: true
                 });
                 setProfileData(response.data);
@@ -41,6 +41,7 @@ const Profile = () => {
 
     return (
         <div>
+            <Link to={`/profile/edit/${username}`}>edit profile</Link>
             <h2>Profile Page</h2>
             <img src={profileData.profilePicture || defaultProfilePic} alt="Profile" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
             <h3>Username: {profileData.username || 'Username'}</h3>

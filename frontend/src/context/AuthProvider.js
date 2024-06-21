@@ -3,7 +3,14 @@ import { createContext, useEffect, useState } from "react";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({user: null, token: null});
+    const [auth, setAuth] = useState(() => {
+        const user = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        if (user && token) {
+            return { user, token };
+        }
+        return null;
+    });
 
     useEffect(() => {
         const user = localStorage.getItem('user');
@@ -22,11 +29,11 @@ export const AuthProvider = ({ children }) => {
 
     const getToken = () => {
         console.log('returning token: ' + auth.token);
-        return auth.token;
+        return auth?.token;
     };
 
     const getUser = () => {
-        return auth.user;
+        return auth?.user;
     }
 
     return (
