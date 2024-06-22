@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 
-const LOGIN_URL = '/home';
-
 const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -38,7 +36,6 @@ const Home = () => {
 
     return (
         <div>
-             <p>Home</p>
              <input
                 type="text"
                 className='textbox'
@@ -57,12 +54,9 @@ const Home = () => {
                     </div>
                 ))
             ) : (
-                <p>No results found.</p>
+                <p className={searchQuery ? "instructions" : "offscreen"} >No results found.</p>
             )}
-            <a href="/unauthorized">unauthorized</a>
-            <br />
-            <a href="/profileedit">edit profile</a>
-             </div>
+        </div>
     
     );
 
