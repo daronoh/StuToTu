@@ -30,6 +30,14 @@ body {
   padding: 1rem 0.5rem;
 }
 
+.AppNonCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh; 
+  padding: 1rem 0.5rem;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -51,7 +59,7 @@ textarea {
   border-radius: 0.5rem;
 }
 
-button {
+.loginbutton {
   margin-top: 1rem;
   padding: 0.5rem;
 }
@@ -119,11 +127,20 @@ button {
   gap: 0.5rem;
 }
 
+.centered-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
-  height: 56px;
+  height: 60px;
   width: 100%;
   background-color: aliceblue;
   padding: 0 1rem;
@@ -246,4 +263,8 @@ button {
   .nav-links.hidden {
     display: none;
   }
+}
+
+.body-content {
+  padding-top: 60px; 
 }

@@ -26,7 +26,7 @@ const Navbar = () => {
     return null;
   } else {
   return (
-    <>
+    <div>
       <nav className="navbar">
         <button className="sidenavbar" onClick={toggleSideNav}>
           &#9776;
@@ -62,7 +62,7 @@ const Navbar = () => {
           <button onClick={handleLogout}>Logout</button>
         </>
       </div>
-    </>
+    </div>
   );
   }
 }

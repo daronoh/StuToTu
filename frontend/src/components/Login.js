@@ -51,7 +51,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className=''>
             <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>   
             <h1>StuToTu</h1>
             <h2>Sign In</h2> 
@@ -77,7 +77,7 @@ const Login = () => {
                     required
                 />
 
-                <button>Sign In</button>
+                <button className='loginbutton'>Sign In</button>
             </form>
             <p id="signin">
                 Don't have an Account?<br />

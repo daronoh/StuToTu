@@ -166,7 +166,7 @@ const Register = () => {
                 </p>
 
 
-                <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                <button disabled={!validName || !validPwd || !validMatch ? true : false} className='loginbutton'>Sign Up</button>
             </form>
             <p id="signin">
                 Have an account?<br />

@@ -1,8 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
@@ -15,7 +16,6 @@ const Profile = () => {
             try {
                 const token = getToken(); 
                 const authStr = 'Bearer '.concat(token);
-                console.log(authStr);
                 const response = await axios.get(`/api/profile/${username}`, {
                     headers: {'Authorization': authStr},
                     withCredentials: true
@@ -40,13 +40,120 @@ const Profile = () => {
     }
 
     return (
-        <div>
-            <Link to={`/profile/edit/${username}`}>edit profile</Link>
-            <h2>Profile Page</h2>
-            <img src={profileData.profilePicture || defaultProfilePic} alt="Profile" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-            <h3>Username: {profileData.username || 'Username'}</h3>
-            <p>Description: {profileData.description || 'Description'}</p>
-            {/* Display other profile information as needed */}
+        <div className='body-content'>
+                <Button
+                    component={Link}
+                    to={`/profile/edit/${username}`}
+                    variant="contained"
+                    color="primary"
+                    style={{top: 100, right: 100, position: 'absolute'}}
+                >
+                    Edit Profile
+                </Button>
+        <Grid container spacing={0} className='centered-container'>
+            <Grid item xs={12}>
+                <Typography variant="h3">Profile Page</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <img 
+                    src={profileData.profilePicture || defaultProfilePic} 
+                    alt="Profile" 
+                    style={{ width: '100px', height: '100px', borderRadius: '50%' }} 
+                />
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Username:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.username}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Username:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.email}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Name:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.firstName && profileData.lastName ? profileData.firstName + ' ' + profileData.lastName : ''}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Gender:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.gender}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Education Level:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.educationLevel}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={5}>
+                <div className='centered-box'>
+                <Typography variant="body1">Subjects:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.subjects && profileData.subjects.length > 0 ? profileData.subjects.join(', ') : 'No subjects'}
+                </Box>
+                </div>
+            </Grid>
+            <Grid item xs={12}>
+                <div>
+                <Typography variant="body1">Description:</Typography>
+                <Box
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ border: '2px solid grey' }}
+                    >
+                    {profileData.description}
+                </Box>
+                </div>
+            </Grid>
+
+        </Grid>
         </div>
     );
 };

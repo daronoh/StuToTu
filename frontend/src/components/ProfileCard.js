@@ -8,17 +8,26 @@ import defaultProfilePic from '../assets/default-profile-pic.png';
 
 const ProfileCard = ({ profile }) => {
     return (
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 500 }}>
         <CardActionArea>
             <CardMedia
-            sx={{ height: 140 }}
+            sx={{ height: 150 }}
             image={profile.profilePicture || defaultProfilePic}
             />
             <CardContent>
             <Typography gutterBottom variant="h5" component="div">
                 {profile.firstName} {profile.lastName} ({profile.username})
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography 
+                variant="body2" 
+                color="text.secondary" 
+                sx={{display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    WebkitLineClamp: 3, // Adjust the number of lines here
+                }}
+            >
                 {profile.description}
             </Typography>
             </CardContent>

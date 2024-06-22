@@ -34,6 +34,7 @@ const ProfileEdit = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(true);
     const [gender, setGender] = useState('');
     const [subject, setSubject] = useState([]);
     const [educationLevel, setEducationLevel] = useState('');
@@ -65,8 +66,19 @@ const ProfileEdit = () => {
         fetchProfileData();
     }, [username, getToken]);
 
+    const handleEmailChange = (e) => {
+        const { value } = e.target;
+        setEmail(value);
+        setIsValidEmail(value.includes('@')); // Check if "@" is included in the email
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidEmail) {
+            setErrMsg('Please enter a valid email address.');
+            return;
+        }
 
         try {
             const token = getToken(); 
@@ -126,7 +138,7 @@ const ProfileEdit = () => {
                             variant="outlined"
                             fullWidth
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={handleEmailChange}
                             required
                         />
                     </Grid>
@@ -188,12 +200,13 @@ const ProfileEdit = () => {
 
                     <Grid item xs={12}>
                         <TextField
-                            label="description"
+                            label="description (max 1000 characters)"
                             variant="outlined"
                             fullWidth
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             required
+                            inputProps={{ maxLength: 1000 }}
                         />
                     </Grid>
 

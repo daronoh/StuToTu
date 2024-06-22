@@ -36,30 +36,35 @@ const Home = () => {
     };
 
     return (
-        <div className="App">
-        <TextField
-            type="text"
-            variant="outlined"
-            fullWidth
-            value={searchQuery}
-            onChange={handleSearchInputChange}
-            placeholder="Search profiles..."
-            sx={{ marginBottom: 3 }}
-            autoComplete='off'
-        />
-        {error && <p>Error: {error}</p>}
-        {searchResults.length > 0 ? (
-            <Grid container spacing={2}>
-                {searchResults.map((result) => (
-                    <Grid item key={result.id} xs={6}>
-                        <ProfileCard profile={result} />
+        <div className="AppNonCenter">
+            <div style={{ marginTop: 100, backgroundColor: 'white', padding: '1rem', borderBottom: '1px solid #ccc' }}>
+                <TextField
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    placeholder="Search profiles..."
+                    sx={{ marginBottom: 3 }}
+                    autoComplete='off'
+                />
+            </div>
+
+            <div style={{ marginTop: '4rem'}}>
+                {error && <p>Error: {error}</p>}
+                {searchResults.length > 0 ? (
+                    <Grid container spacing={2}>
+                        {searchResults.slice(0, 6).map((result) => (
+                            <Grid item key={result.id} xs={searchResults.length > 1 ? 6 : 12}>
+                                <ProfileCard profile={result} />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-        ) : (
-            <p className={searchQuery ? "instructions" : "offscreen"} >No results found.</p>
-        )}
-    </div>
+                ) : (
+                    <p className={searchQuery ? "instructions" : "offscreen"}>No results found.</p>
+                )}
+            </div>
+        </div>
     );
 };
 
