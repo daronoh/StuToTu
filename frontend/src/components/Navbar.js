@@ -24,8 +24,7 @@ const Navbar = () => {
 
   if (!user) {
     return null;
-  }
-
+  } else {
   return (
     <>
       <nav className="navbar">
@@ -61,6 +60,7 @@ const Navbar = () => {
       </div>
     </>
   );
-};
+  }
+}
 
 export default Navbar;
