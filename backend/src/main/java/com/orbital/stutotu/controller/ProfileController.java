@@ -1,5 +1,7 @@
 package com.orbital.stutotu.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orbital.stutotu.exception.ResourceNotFoundException;
 import com.orbital.stutotu.model.Profile;
 import com.orbital.stutotu.repository.UserRepository;
+import com.orbital.stutotu.service.MyUserDetailsService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -21,6 +25,15 @@ public class ProfileController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MyUserDetailsService userService;
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Profile>> searchProfiles(@RequestParam String query) {
+        List<Profile> profiles = userService.searchProfiles(query);
+        return ResponseEntity.ok(profiles);
+    }
 
     // GET profile by username
     @GetMapping("/{username}")
@@ -52,6 +65,7 @@ public class ProfileController {
             profile.setProfilePicture(profileDetails.getProfilePicture());
             profile.setDescription(profileDetails.getDescription());
             profile.setSubjects(profileDetails.getSubjects());
+            profile.setEducationLevel(profileDetails.getEducationLevel());
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);

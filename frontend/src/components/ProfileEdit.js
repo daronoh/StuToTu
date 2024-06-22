@@ -4,8 +4,6 @@ import { Grid, Box, TextField, FormControl, InputLabel, Select, MenuItem, Outlin
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const PROFILEEDIT_URL = '/profileedit';
-
 const MenuProps = {
     PaperProps: {
         style: {
@@ -26,6 +24,8 @@ const subjects = [
     'Geography',
 ];
 
+
+
 const ProfileEdit = () => {
     const navigate = useNavigate();
     const { username } = useParams(); // Access the username parameter from the route
@@ -40,12 +40,37 @@ const ProfileEdit = () => {
     const [description, setDescription] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            try {
+                const token = getToken();
+                const response = await axios.get(`/api/profile/${username}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    withCredentials: true
+                });
+    
+                const profileData = response.data;
+                setFirstName(profileData.firstName || '');
+                setLastName(profileData.lastName || '');
+                setEmail(profileData.email || '');
+                setGender(profileData.gender || '');
+                setSubject(profileData.subjects || []);
+                setEducationLevel(profileData.educationLevel || '');
+                setDescription(profileData.description || '');
+            } catch (err) {
+                setErrMsg('Failed to load profile data');
+            }
+        };
+    
+        fetchProfileData();
+    }, [username, getToken]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const token = getToken(); 
-            const response = await axios.put(`/api/profile/edit/${username}`, 
+            await axios.put(`/api/profile/edit/${username}`, 
                 JSON.stringify({
                     firstName: firstName,
                     lastName: lastName,
@@ -75,6 +100,7 @@ const ProfileEdit = () => {
                     <Grid item xs={6}>
                         <TextField
                             label="First Name"
+                            className='textbox'
                             variant="outlined"
                             fullWidth
                             value={firstName}

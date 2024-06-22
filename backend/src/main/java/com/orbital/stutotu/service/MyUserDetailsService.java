@@ -1,6 +1,7 @@
 package com.orbital.stutotu.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,10 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
+    }
+
+    public List<Profile> searchProfiles(String query) {
+        return userRepository.findByUsernameContainingIgnoreCase(query);
     }
 }
 

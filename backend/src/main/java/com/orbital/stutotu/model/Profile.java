@@ -43,6 +43,8 @@ public class Profile {
 
     private String description;  
 
+    private String educationLevel;
+    
     public Profile(String username, String password) {
         this.username = username;
         this.password = password;
