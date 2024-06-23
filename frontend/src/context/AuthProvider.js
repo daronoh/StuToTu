@@ -25,27 +25,28 @@ export const AuthProvider = ({ children }) => {
             console.log('setting auth state:' + user + ',' + token);
             localStorage.setItem('user', user);
             localStorage.setItem('token', token);
+            setAuth({user, token});
         } else {
             localStorage.removeItem('user');
             localStorage.removeItem('token');
+            setAuth(null);
         }
-        setAuth({user, token});
     };
 
     const logout = () => {
         console.log('logging out');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        setAuth({ user: null, token: null });
+        setAuth(null);
     }
 
     const getToken = () => {
         console.log('returning token: ' + auth.token);
-        return auth?.token;
+        return auth ? auth?.token : null;
     };
 
     const getUser = () => {
-        return auth?.user;
+        return auth ? auth?.user : null;
     }
 
     return (
