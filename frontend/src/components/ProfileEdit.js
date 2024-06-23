@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import axios from 'axios';
-import { Grid, Box, TextField, FormControl, InputLabel, Select, MenuItem, OutlinedInput, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -212,7 +212,7 @@ const ProfileEdit = () => {
 
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <Button type="submit" variant="contained" color="primary">
-                            Submit
+                            Update
                         </Button>
                     </Grid>
 

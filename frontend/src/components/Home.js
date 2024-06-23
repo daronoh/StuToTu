@@ -1,7 +1,8 @@
+import { Grid, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import ProfileCard from './ProfileCard';
-import { Grid, TextField } from '@mui/material';
+import ProfileFilter from './ProfileFilter';
 
 const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -48,6 +49,7 @@ const Home = () => {
                     sx={{ marginBottom: 3 }}
                     autoComplete='off'
                 />
+                <ProfileFilter applyFilters={(filters) => console.log(filters)} />
             </div>
 
             <div style={{ marginTop: '4rem'}}>
