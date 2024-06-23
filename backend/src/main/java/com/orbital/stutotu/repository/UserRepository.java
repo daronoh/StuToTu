@@ -1,5 +1,6 @@
 package com.orbital.stutotu.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,19 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "LOWER(p.educationLevel) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Profile> searchEntireProfile(@Param("query") String query);
+
+    // for filtering profiles
+    @Query("SELECT p FROM Profile p WHERE (:subjects IS NULL OR p.subjects IN :subjects) " +
+           "AND (:gender IS NULL OR p.gender = :gender) " +
+           "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
+           "AND (:location IS NULL OR p.location = :location) " +
+           "AND (:rate IS NULL OR p.rate <= :rate)")
+           
+    List<Profile> findByFilters(
+            @Param("subjects") List<String> subjects,
+            @Param("gender") String gender,
+            @Param("educationLevel") String educationLevel,
+            @Param("location") String location,
+            @Param("rate") BigDecimal rate);
+
 }

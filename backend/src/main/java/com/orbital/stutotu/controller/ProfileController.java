@@ -1,5 +1,6 @@
 package com.orbital.stutotu.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -75,4 +76,17 @@ public class ProfileController {
             Profile updatedProfile = userRepository.save(profile);
             return ResponseEntity.ok(updatedProfile);
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Profile>> filterProfiles(
+        @RequestParam(required = false) List<String> subjects,
+        @RequestParam(required = false) String gender,
+        @RequestParam(required = false) String educationLevel,
+        @RequestParam(required = false) String location,
+        @RequestParam(required = false) BigDecimal rate) {
+    
+    List<Profile> filteredProfiles = userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
+    return ResponseEntity.ok(filteredProfiles);
+}
+
 }

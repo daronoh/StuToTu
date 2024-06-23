@@ -1,6 +1,7 @@
 import FilterIcon from '@mui/icons-material/Filter';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, InputLabel, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import axios from '../api/axios';
 
 const subjectsOptions = [
     'English',
@@ -36,15 +37,22 @@ const ProfileFilter = ({ applyFilters }) => {
     const [value, setValue] = useState(50); // Default value for the slider
 
 
-    const handleApplyFilters = () => {
-        applyFilters({
-            subjects: subjectsFilter,
-            gender: genderFilter,
-            educationLevel: educationLevelFilter,
-            location: locationFilter,
-            rate: rateFilter,
-        });
+    const handleApplyFilters = async () => {
         setOpen(false);
+        try {
+            const response = await axios.get('/api/profile/filter', {
+                params: {
+                    subjects: subjectsFilter,
+                    gender: genderFilter,
+                    educationLevel: educationLevelFilter,
+                    location: locationFilter,
+                    rate: rateFilter,
+                }
+            });
+            applyFilters(response.data); // Assuming applyFilters updates state with filtered profiles
+        } catch (error) {
+            console.error('Error applying filters:', error);
+        }
     };
 
     const handleOpen = () => {

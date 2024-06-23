@@ -11,7 +11,6 @@ import RequireAuth from './components/RequireAuth';
 import Unauthorized from './components/Unauthorized';
 import useAuth from './hooks/useAuth';
 
-
 function App() {
 
   const { auth } = useAuth();
