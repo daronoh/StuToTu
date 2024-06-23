@@ -1,22 +1,20 @@
-import * as React from 'react';
+import { CardActionArea } from '@mui/material';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Box, CardActionArea } from '@mui/material';
+import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
-import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 const ProfileCard = ({ profile }) => {
     return (
-        <Card class="profilecardcontainer">
-            <CardActionArea> 
+        <Card className="profilecardcontainer">
+            <CardActionArea component={Link} to={`/profile/${profile.username}`}> 
           <MDBContainer>
             <br />
             <br />
             <MDBRow>
               <MDBCol sm={12} md={4}>
-                <div class="container">
+                <div className="container">
                   <img
                     src={profile.profilePicture || defaultProfilePic} 
                     style={{ width: 150, height: 150 }}
@@ -26,7 +24,7 @@ const ProfileCard = ({ profile }) => {
               </MDBCol>
 
               <MDBCol>
-                <div class="container">
+                <div className="container">
                   <h2>{profile.firstName && profile.lastName ? profile.firstName + ' ' + profile.lastName : 'no name'}</h2>
                   <h5>{profile.username}</h5>
                   <p>{profile.subjects && profile.subjects.length > 0 ? profile.subjects.join(', ') : 'No subjects'}</p>
