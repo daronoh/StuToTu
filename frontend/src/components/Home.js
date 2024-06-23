@@ -55,7 +55,7 @@ const Home = () => {
                 {searchResults.length > 0 ? (
                     <Grid container spacing={2}>
                         {searchResults.slice(0, 6).map((result) => (
-                            <Grid item key={result.id} xs={searchResults.length > 1 ? 6 : 12}>
+                            <Grid item key={result.id} xs={12}>
                                 <ProfileCard profile={result} />
                             </Grid>
                         ))}

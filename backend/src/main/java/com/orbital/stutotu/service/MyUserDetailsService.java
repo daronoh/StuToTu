@@ -29,7 +29,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     public List<Profile> searchProfiles(String query) {
-        return userRepository.findByUsernameContainingIgnoreCase(query);
+        return userRepository.searchEntireProfile(query);
     }
 }
 

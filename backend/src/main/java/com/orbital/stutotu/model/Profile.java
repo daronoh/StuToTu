@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.Size;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +43,7 @@ public class Profile {
 
     private String profilePicture;
     
+    @ElementCollection
     private List<String> subjects;
 
     @Size(max = 1000)

@@ -268,3 +268,15 @@ textarea {
 .body-content {
   padding-top: 60px; 
 }
+
+.profilecardcontainer {
+  text-align: center;
+  margin-top: 25px;
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-bottom: 2%;
+  border-radius: 20px;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border: 2px solid rgb(187, 187, 187);
+}
