@@ -1,5 +1,6 @@
 package com.orbital.stutotu.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.constraints.Size;
@@ -51,6 +52,10 @@ public class Profile {
     private String description;  
 
     private String educationLevel;
+
+     private String location;
+
+    private BigDecimal rate;
 
     public Profile(String username, String password) {
         this.username = username;

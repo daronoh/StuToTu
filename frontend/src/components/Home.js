@@ -7,6 +7,7 @@ import ProfileFilter from './ProfileFilter';
 const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -36,6 +37,31 @@ const Home = () => {
         setSearchQuery(e.target.value);
     };
 
+    const applyFilters = async (filters) => {
+        setLoading(true);
+        try {
+            const response = await axios.get('/api/profile/filter', {
+                params: {
+                    subjects: JSON.stringify(filters.subjects),  // Encode array as JSON
+                    gender: filters.gender,
+                    educationLevel: filters.educationLevel,
+                    location: filters.location,
+                    rate: filters.rate,
+                },
+                paramsSerializer: params => {
+                    return new URLSearchParams(params).toString();
+                }
+            });
+            setFilteredProfiles(response.data);
+            setLoading(false);
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    };
+
+    const profilesToDisplay = filteredProfiles.length > 0 ? filteredProfiles : searchResults;
+
     return (
         <div className="AppNonCenter">
             <div style={{ marginTop: 100, backgroundColor: 'white', padding: '1rem', borderBottom: '1px solid #ccc' }}>
@@ -49,14 +75,15 @@ const Home = () => {
                     sx={{ marginBottom: 3 }}
                     autoComplete='off'
                 />
-                <ProfileFilter applyFilters={(filters) => console.log(filters)} />
+                <ProfileFilter applyFilters={applyFilters} />
             </div>
 
             <div style={{ marginTop: '4rem'}}>
+                {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
-                {searchResults.length > 0 ? (
+                {profilesToDisplay.length > 0 ? (
                     <Grid container spacing={2}>
-                        {searchResults.slice(0, 6).map((result) => (
+                        {profilesToDisplay.slice(0, 6).map((result) => (
                             <Grid item key={result.id} xs={12}>
                                 <ProfileCard profile={result} />
                             </Grid>

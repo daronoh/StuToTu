@@ -1,7 +1,6 @@
 import FilterIcon from '@mui/icons-material/Filter';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, InputLabel, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, Slider, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import axios from '../api/axios';
 
 const subjectsOptions = [
     'English',
@@ -36,25 +35,6 @@ const ProfileFilter = ({ applyFilters }) => {
     const [rateFilter, setRateFilter] = useState('');
     const [value, setValue] = useState(50); // Default value for the slider
 
-
-    const handleApplyFilters = async () => {
-        setOpen(false);
-        try {
-            const response = await axios.get('/api/profile/filter', {
-                params: {
-                    subjects: subjectsFilter,
-                    gender: genderFilter,
-                    educationLevel: educationLevelFilter,
-                    location: locationFilter,
-                    rate: rateFilter,
-                }
-            });
-            applyFilters(response.data); // Assuming applyFilters updates state with filtered profiles
-        } catch (error) {
-            console.error('Error applying filters:', error);
-        }
-    };
-
     const handleOpen = () => {
         setOpen(true);
     };
@@ -68,6 +48,18 @@ const ProfileFilter = ({ applyFilters }) => {
         setRateFilter(newValue); // Update rateFilter state with the slider value
     };
 
+    const handleApplyFilters = async () => {
+        const filters = {
+            subjects: subjectsFilter.length > 0 ? subjectsFilter : null,
+            gender: genderFilter || null,
+            educationLevel: educationLevelFilter || null,
+            location: locationFilter || null,
+            rate: rateFilter !== '' ? Number(rateFilter) : null,
+        };
+        applyFilters(filters);
+        setOpen(false);
+    };
+
     return (
         <>
             <Button variant="outlined" onClick={handleOpen} startIcon={<FilterIcon />}>
@@ -78,22 +70,26 @@ const ProfileFilter = ({ applyFilters }) => {
                 <DialogContent>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <InputLabel id="subjects-label">Subjects</InputLabel>
-                            <Select
-                                labelId="subjects-label"
-                                variant="outlined"
-                                fullWidth
-                                value={subjectsFilter}
-                                onChange={(e) => setSubjectsFilter(e.target.value)}
-                                multiple
-                                renderValue={(selected) => selected.join(', ')}
-                            >
-                                {subjectsOptions.map((subject) => (
-                                    <MenuItem key={subject} value={subject}>
-                                        {subject}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                            <Box>
+                                <FormControl fullWidth>
+                                    <InputLabel>Subjects</InputLabel>
+                                    <Select
+                                        label="Subject"
+                                         variant="outlined"
+                                        fullWidth
+                                        value={subjectsFilter}
+                                        onChange={(e) => setSubjectsFilter(e.target.value)}
+                                        multiple
+                                        renderValue={(selected) => selected.join(', ')}
+                                    >
+                                        {subjectsOptions.map((subject) => (
+                                            <MenuItem key={subject} value={subject}>
+                                                {subject}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
                         </Grid>
 
                         <Grid item xs={6}>
@@ -123,33 +119,42 @@ const ProfileFilter = ({ applyFilters }) => {
                         </Grid>
 
                         <Grid item xs={6}>
-                            <TextField
-                                label="Gender"
-                                variant="outlined"
-                                fullWidth
-                                value={genderFilter}
-                                onChange={(e) => setGenderFilter(e.target.value)}
-                            />
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel>Gender</InputLabel>
+                                <Select
+                                    value={genderFilter}
+                                    onChange={(e) => setGenderFilter(e.target.value)}
+                                    label="Gender"
+                                >
+                                    <MenuItem value="Male">Male</MenuItem>
+                                    <MenuItem value="Female">Female</MenuItem>
+                                    <MenuItem value="Others">Others</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={6}>
-                        <InputLabel id="education-label">Education Level</InputLabel>
-                            <Select
-                                labelId="education-label"
-                                label="Education Level"
-                                variant="outlined"
-                                fullWidth
-                                value={educationLevelFilter}
-                                onChange={(e) => setEducationLevelFilter(e.target.value)}
-                            >
-                                {educationLevels.map((level) => (
-                                    <MenuItem key={level.value} value={level.value}>
-                                        {level.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                            <Box>
+                                <FormControl fullWidth>
+                                    <InputLabel>Education Level</InputLabel>
+                                        <Select
+                                            label="Education Level"
+                                            variant="outlined"
+                                            fullWidth
+                                            value={educationLevelFilter}
+                                            onChange={(e) => setEducationLevelFilter(e.target.value)}
+                                        >
+                                            {educationLevels.map((level) => (
+                                                <MenuItem key={level.value} value={level.value}>
+                                                    {level.label}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                </FormControl>
+                            </Box>
                         </Grid>
                     </Grid>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

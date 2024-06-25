@@ -28,7 +28,8 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
     List<Profile> searchEntireProfile(@Param("query") String query);
 
     // for filtering profiles
-    @Query("SELECT p FROM Profile p WHERE (:subjects IS NULL OR p.subjects IN :subjects) " +
+    @Query("SELECT p FROM Profile p " +
+           "WHERE (:subjects IS NULL OR EXISTS (SELECT 1 FROM Profile pr WHERE pr.id = p.id AND :subjects IN elements(pr.subjects))) " +
            "AND (:gender IS NULL OR p.gender = :gender) " +
            "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
            "AND (:location IS NULL OR p.location = :location) " +

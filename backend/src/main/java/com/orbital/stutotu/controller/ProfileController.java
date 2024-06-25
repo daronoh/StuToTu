@@ -77,16 +77,44 @@ public class ProfileController {
             return ResponseEntity.ok(updatedProfile);
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<Profile>> filterProfiles(
-        @RequestParam(required = false) List<String> subjects,
-        @RequestParam(required = false) String gender,
-        @RequestParam(required = false) String educationLevel,
-        @RequestParam(required = false) String location,
-        @RequestParam(required = false) BigDecimal rate) {
-    
-    List<Profile> filteredProfiles = userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
-    return ResponseEntity.ok(filteredProfiles);
-}
+        @GetMapping("/filter")
+        public ResponseEntity<List<Profile>> filterProfiles(
+            @RequestParam(required = false) List<String> subjects,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String educationLevel,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) BigDecimal rate) {
+        
+        List<Profile> filteredProfiles = userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
+        return ResponseEntity.ok(filteredProfiles);
+    }
 
 }
+
+
+/*import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import java.math.BigDecimal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/profile")
+public class ProfileController {
+
+    private final UserRepository userRepository;
+
+    public ProfileController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping("/filter")
+    public List<Profile> filterProfiles(
+            @RequestParam(required = false) List<String> subjects,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String educationLevel,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) BigDecimal rate) {
+        return userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
+    }
+}*/
