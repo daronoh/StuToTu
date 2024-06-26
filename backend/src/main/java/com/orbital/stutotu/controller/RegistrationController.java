@@ -28,9 +28,22 @@ public class RegistrationController {
 
         if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+        } else if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
         }
 
-        Profile saveUser = new Profile(user.getUsername(), passwordEncoder.encode(user.getPassword()));
+        Profile saveUser;
+        
+        switch (user.getRole()) {
+            case "STUDENT" -> saveUser = Profile.createStudentProfile(user.getUsername(), passwordEncoder.encode(user.getPassword()), user.getFirstName(),
+                        user.getLastName(), user.getEmail(), user.getGender());
+            case "TUTOR" -> saveUser = Profile.createTutorProfile(user.getUsername(), passwordEncoder.encode(user.getPassword()), user.getFirstName(),
+                        user.getLastName(), user.getEmail(), user.getGender(), user.getSubjects(), user.getEducationLevel(), user.getLocation(), user.getRate());
+            default -> {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("ERROR");
+            }
+        }
+        
 
         userRepository.save(saveUser);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");

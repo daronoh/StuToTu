@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../api/axios';
+import { InputLabel, MenuItem, OutlinedInput, Select, Slider, Typography } from '@mui/material';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,15}$/;
 const PWD_REGEX = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,24}$/;
 const REGISTER_URL = '/register';
 
-const Register = () => {
+
+const RegisterStudent = () => {
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -22,20 +24,22 @@ const Register = () => {
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] =useState(false);
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
+    const [role] = useState('STUDENT');
+
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
-        console.log(result);
-        console.log(user);
         setValidName(result);
     }, [user])
 
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
-        console.log(result);
-        console.log(pwd);
         setValidPwd(result);
         const match = pwd === matchPwd;
         setValidMatch(match);
@@ -57,7 +61,7 @@ const Register = () => {
         // use axios to submit user and pwd
         try {
             const response = await axios.post(REGISTER_URL, 
-                JSON.stringify({username: user, password: pwd}),
+                JSON.stringify({username: user, password: pwd, firstName, lastName, email, gender, role}),
                 {
                     headers: { 
                         'Content-Type': 'application/json',
@@ -90,7 +94,7 @@ const Register = () => {
         <div>
             <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <h1>StuToTu</h1>
-            <h2>Register</h2>
+            <h2>Register as a Tutor</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">
                     Username:
@@ -132,9 +136,9 @@ const Register = () => {
                     value={pwd}
                     required
                     aria-invalid={validPwd ? "false" : "true"}
-                    aria-describedby="pwdnote"
+                    aria-describedby="pwdnote"   
                     onFocus={() => setPwdFocus(true)}
-                    onBlur={() => setPwdFocus(false)}        
+                    onBlur={() => setPwdFocus(false)}      
                 />
                 <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                     <FontAwesomeIcon icon={faInfoCircle} />
@@ -164,9 +168,45 @@ const Register = () => {
                     <FontAwesomeIcon icon={faInfoCircle} />
                     Does not match password.
                 </p>
-
-
-                <button disabled={!validName || !validPwd || !validMatch ? true : false} className='loginbutton'>Sign Up</button>
+                <label htmlFor="firstname">First Name: </label>
+                <input
+                    type="text"
+                    id="firstname"
+                    className='textbox'
+                    autoComplete="off"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                />
+                <label htmlFor="lastname">Last Name: </label>
+                <input
+                    type="text"
+                    id="lastname"
+                    className='textbox'
+                    autoComplete="off"
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                />
+                <label htmlFor="email">Email: </label>
+                <input
+                    type="email"
+                    id="email"
+                    className='textbox'
+                    autoComplete="off"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <InputLabel sx={{color: 'black'}}>Gender</InputLabel>
+                    <Select
+                        value={gender}
+                        label="Gender"
+                        onChange={(e) => setGender(e.target.value)}
+                        required
+                    >
+                        <MenuItem value={'Male'}>Male</MenuItem>
+                        <MenuItem value={'Female'}>Female</MenuItem>
+                        <MenuItem value={'Others'}>Others</MenuItem>
+                    </Select>
+                    <button disabled={!validName || !validPwd || !validMatch ? true : false} className='loginbutton'>Sign Up</button>
             </form>
             <p id="signin">
                 Have an account?<br />
@@ -181,4 +221,4 @@ const Register = () => {
     )
 }
 
-export default Register;
+export default RegisterStudent;

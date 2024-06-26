@@ -33,7 +33,8 @@ const Login = () => {
             );
             // Store JWT token in local storage or cookie
             const accessToken = response?.data?.accessToken;
-            setAuthState(user, accessToken);
+            const userRole = response?.data?.role;
+            setAuthState(user, accessToken, userRole);
             setUser('');
             setPwd('');
             navigate(from, { replace: true});
@@ -82,7 +83,9 @@ const Login = () => {
             <p id="signin">
                 Don't have an Account?<br />
                 <span className='line'>
-                    <a href="/register">Sign Up</a>
+                    <a href="/registerTutor">Sign up as a Tutor</a>
+                    <br/>
+                    <a href='/registerStudent'>Sign up as a Student</a>
                 </span>
             </p>
         </div>

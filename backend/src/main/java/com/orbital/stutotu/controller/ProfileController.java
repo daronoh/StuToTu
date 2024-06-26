@@ -1,6 +1,5 @@
 package com.orbital.stutotu.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,8 +34,8 @@ public class ProfileController {
     private MyUserDetailsService userService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<Profile>> searchProfiles(@RequestParam String query) {
-        List<Profile> profiles = userService.searchProfiles(query);
+    public ResponseEntity<List<Profile>> searchTutorProfiles(@RequestParam String query) {
+        List<Profile> profiles = userService.searchTutorProfiles(query);
         return ResponseEntity.ok(profiles);
     }
 
@@ -71,19 +70,21 @@ public class ProfileController {
             profile.setDescription(profileDetails.getDescription());
             profile.setSubjects(profileDetails.getSubjects());
             profile.setEducationLevel(profileDetails.getEducationLevel());
+            profile.setLocation(profileDetails.getLocation());
+            profile.setRate(profileDetails.getRate());
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);
             return ResponseEntity.ok(updatedProfile);
     }
 
-        @GetMapping("/filter")
-        public ResponseEntity<List<Profile>> filterProfiles(
-            @RequestParam(required = false) List<String> subjects,
-            @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String educationLevel,
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) BigDecimal rate) {
+    @GetMapping("/filter")
+    public ResponseEntity<List<Profile>> filterProfiles(
+        @RequestParam(required = false) List<String> subjects,
+        @RequestParam(required = false) String gender,
+        @RequestParam(required = false) String educationLevel,
+        @RequestParam(required = false) String location,
+        @RequestParam(required = false) int rate) {
         
         List<Profile> filteredProfiles = userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
         return ResponseEntity.ok(filteredProfiles);

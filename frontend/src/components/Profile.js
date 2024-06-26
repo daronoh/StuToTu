@@ -145,6 +145,32 @@ const Profile = () => {
                     </Box>
                     </div>
                 </Grid>
+                <Grid item xs={5}>
+                    <div className='centered-box'>
+                    <Typography variant="body1">Location:</Typography>
+                    <Box
+                        alignItems="center"
+                        gap={4}
+                        p={2}
+                        sx={{ border: '2px solid grey' }}
+                        >
+                        {profileData.location}
+                    </Box>
+                    </div>
+                </Grid>
+                <Grid item xs={5}>
+                    <div className='centered-box'>
+                    <Typography variant="body1">Rate:</Typography>
+                    <Box
+                        alignItems="center"
+                        gap={4}
+                        p={2}
+                        sx={{ border: '2px solid grey' }}
+                        >
+                        {profileData.rate}
+                    </Box>
+                    </div>
+                </Grid>
                 <Grid item xs={12}>
                     <div>
                     <Typography variant="body1">Description:</Typography>

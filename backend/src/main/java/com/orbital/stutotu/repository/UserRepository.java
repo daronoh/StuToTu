@@ -1,6 +1,5 @@
 package com.orbital.stutotu.repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,10 +12,12 @@ import com.orbital.stutotu.model.Profile;
 @Repository
 public interface UserRepository extends JpaRepository<Profile, Long> {
     boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
     Profile findByUsername(String username);
     List<Profile> findByUsernameContainingIgnoreCase(String username);
 
-    @Query("SELECT DISTINCT p FROM Profile p LEFT JOIN p.subjects s WHERE " +
+    @Query("SELECT DISTINCT p FROM Profile p LEFT JOIN p.subjects s " +
+           "WHERE p.role = 'TUTOR' AND (" +
            "LOWER(p.username) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.lastName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
@@ -24,8 +25,9 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "LOWER(p.gender) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.educationLevel) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%'))")
-    List<Profile> searchEntireProfile(@Param("query") String query);
+           "LOWER(p.location) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<Profile> searchTutorProfile(@Param("query") String query);
 
     // for filtering profiles
     @Query("SELECT p FROM Profile p " +
@@ -34,12 +36,14 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
            "AND (:location IS NULL OR p.location = :location) " +
            "AND (:rate IS NULL OR p.rate <= :rate)")
-           
     List<Profile> findByFilters(
             @Param("subjects") List<String> subjects,
             @Param("gender") String gender,
             @Param("educationLevel") String educationLevel,
             @Param("location") String location,
-            @Param("rate") BigDecimal rate);
+            @Param("rate") int rate);
+
+    @Query("SELECT p.role FROM Profile p WHERE p.username = :username")
+    String findRoleByUsername(@Param("username") String username);
 
 }

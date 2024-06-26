@@ -6,7 +6,8 @@ import Login from "./components/Login";
 import Missing from './components/Missing';
 import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
-import Register from './components/Register';
+import RegisterTutor from './components/RegisterTutor';
+import RegisterStudent from './components/RegisterStudent';
 import RequireAuth from './components/RequireAuth';
 import Unauthorized from './components/Unauthorized';
 import useAuth from './hooks/useAuth';
@@ -20,7 +21,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={auth ? <Navigate to="/Home" /> : <Navigate to="/Login" />} />
         <Route path="Login" element={auth ? <Navigate to="/Home" /> : <Login />} />
-        <Route path = "Register" element={<Register />} />
+        <Route path = "RegisterTutor" element={<RegisterTutor />} />
+        <Route path = "RegisterStudent" element={<RegisterStudent />} />
         <Route path = "Unauthorized" element={<Unauthorized />} />
         {}
         <Route element={<RequireAuth />}>

@@ -32,8 +32,7 @@ const ProfileFilter = ({ applyFilters }) => {
     const [genderFilter, setGenderFilter] = useState('');
     const [educationLevelFilter, setEducationLevelFilter] = useState('');
     const [locationFilter, setLocationFilter] = useState('');
-    const [rateFilter, setRateFilter] = useState('');
-    const [value, setValue] = useState(50); // Default value for the slider
+    const [rateFilter, setRateFilter] = useState(0);
 
     const handleOpen = () => {
         setOpen(true);
@@ -42,11 +41,6 @@ const ProfileFilter = ({ applyFilters }) => {
     const handleClose = () => {
         setOpen(false);
     };
-    
-    const handleSliderChange = (event, newValue) => {
-        setValue(newValue);
-        setRateFilter(newValue); // Update rateFilter state with the slider value
-    };
 
     const handleApplyFilters = async () => {
         const filters = {
@@ -54,7 +48,7 @@ const ProfileFilter = ({ applyFilters }) => {
             gender: genderFilter || null,
             educationLevel: educationLevelFilter || null,
             location: locationFilter || null,
-            rate: rateFilter !== '' ? Number(rateFilter) : null,
+            rate: rateFilter !== 0 ? rateFilter : 100,
         };
         applyFilters(filters);
         setOpen(false);
@@ -104,11 +98,11 @@ const ProfileFilter = ({ applyFilters }) => {
 
                         <Grid item xs={6}>
                             <Typography id="discrete-slider-always" gutterBottom>
-                                Rate: ${value}/hr
+                                Rate: ${rateFilter}/hr
                             </Typography>
                             <Slider
-                                value={value}
-                                onChange={handleSliderChange}
+                                value={rateFilter}
+                                onChange={e => setRateFilter(e.target.value)}
                                 aria-labelledby="discrete-slider-always"
                                 step={1}
                                 marks={marks}

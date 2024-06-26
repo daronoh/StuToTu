@@ -1,6 +1,5 @@
 package com.orbital.stutotu.model;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.constraints.Size;
@@ -53,12 +52,46 @@ public class Profile {
 
     private String educationLevel;
 
-     private String location;
+    private String location;
 
-    private BigDecimal rate;
+    @Column
+    private int rate;
 
-    public Profile(String username, String password) {
+    private String role;
+
+    public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.rate = 0;
+        this.role = role;
+    }
+
+    public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
+        String educationLevel, String location, int rate, String role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.subjects = subjects;
+        this.educationLevel = educationLevel;
+        this.location = location;
+        this.rate = rate;
+        this.role = role;
+    }
+
+    // Factory methods for creating specific roles
+    public static Profile createStudentProfile(String username, String password, String firstName, String lastName, String email, String gender) {
+        return new Profile(username, password, firstName, lastName, email, gender, "STUDENT");
+    }
+
+    public static Profile createTutorProfile(String username, String password, String firstName, String lastName, String email, String gender, 
+        List<String> subjects, String educationLevel, String location, int rate) {
+        return new Profile(username, password, firstName, lastName, email, gender, subjects, educationLevel, location, rate, "TUTOR");
     }
 }

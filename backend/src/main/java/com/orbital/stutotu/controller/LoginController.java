@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.orbital.stutotu.dto.LoginRequest;
+import com.orbital.stutotu.repository.UserRepository;
 import com.orbital.stutotu.security.JwtUtil;
 import com.orbital.stutotu.service.AuthService;
 
@@ -29,21 +30,27 @@ public class LoginController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("checking backend login request");
         try {
             // Validate login credentials
             boolean isAuthenticated = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
             if (isAuthenticated) {
                 String token = jwtUtil.generateToken(loginRequest.getUsername());
                 Map<String, String> response = new HashMap<>();
-                // returning a map of string to string
                 response.put("accessToken", token);
+                String role = userRepository.findRoleByUsername(loginRequest.getUsername());
+                response.put("role", role);
                 return ResponseEntity.ok(response); // Successful authentication
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Unauthorized
             }
         } catch (Exception e) {
+            System.out.println(e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", e);
         }
     }

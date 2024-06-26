@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Paper, Select, Slider, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,6 +24,12 @@ const subjects = [
     'Geography',
 ];
 
+const marks = [
+    { value: 1, label: '1' },
+    { value: 50, label: '50' },
+    { value: 100, label: '100' },
+];
+
 
 
 const ProfileEdit = () => {
@@ -39,6 +45,8 @@ const ProfileEdit = () => {
     const [subject, setSubject] = useState([]);
     const [educationLevel, setEducationLevel] = useState('');
     const [description, setDescription] = useState('');
+    const [rate, setRate] = useState(0);
+    const [location, setLocation] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
@@ -58,6 +66,8 @@ const ProfileEdit = () => {
                 setSubject(profileData.subjects || []);
                 setEducationLevel(profileData.educationLevel || '');
                 setDescription(profileData.description || '');
+                setRate(profileData.rate || 0);
+                setLocation(profileData.location || '');
             } catch (err) {
                 setErrMsg('Failed to load profile data');
             }
@@ -90,7 +100,9 @@ const ProfileEdit = () => {
                     gender: gender,
                     subjects: subject, // assuming subject is an array
                     educationLevel: educationLevel,
-                    description: description
+                    description: description,
+                    rate: rate,
+                    location: location
                 }),
                 {
                     headers: {'Content-Type': 'application/json',
@@ -196,6 +208,35 @@ const ProfileEdit = () => {
                                 </Select>
                             </FormControl>
                         </Box>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Paper variant="outlined" sx={{ p: 2}}>
+                            <Typography id="discrete-slider-always" gutterBottom>
+                                Rate: ${rate}/hr
+                            </Typography>
+                            <Slider
+                                value={rate}
+                                onChange={(e, newValue) => setRate(newValue)}
+                                aria-labelledby="discrete-slider-always"
+                                step={1}
+                                marks={marks}
+                                min={1}
+                                max={100}
+                                valueLabelDisplay="off"
+                            />
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField
+                            label="Location"
+                            variant="outlined"
+                            fullWidth
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            required
+                        />
                     </Grid>
 
                     <Grid item xs={12}>

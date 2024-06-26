@@ -28,8 +28,8 @@ public class MyUserDetailsService implements UserDetailsService {
                 new ArrayList<>());
     }
 
-    public List<Profile> searchProfiles(String query) {
-        return userRepository.searchEntireProfile(query);
+    public List<Profile> searchTutorProfiles(String query) {
+        return userRepository.searchTutorProfile(query);
     }
 }
 

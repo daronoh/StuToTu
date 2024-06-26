@@ -1,10 +1,12 @@
 import { Grid, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from '../api/axios';
 import ProfileCard from './ProfileCard';
 import ProfileFilter from './ProfileFilter';
+import AuthContext from '../context/AuthProvider';
 
 const Home = () => {
+    const { getRole } = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [filteredProfiles, setFilteredProfiles] = useState([]);
@@ -63,37 +65,47 @@ const Home = () => {
     const profilesToDisplay = filteredProfiles.length > 0 ? filteredProfiles : searchResults;
 
     return (
-        <div className="AppNonCenter">
-            <div style={{ marginTop: 100, backgroundColor: 'white', padding: '1rem', borderBottom: '1px solid #ccc' }}>
-                <TextField
-                    type="text"
-                    variant="outlined"
-                    fullWidth
-                    value={searchQuery}
-                    onChange={handleSearchInputChange}
-                    placeholder="Search profiles..."
-                    sx={{ marginBottom: 3 }}
-                    autoComplete='off'
-                />
-                <ProfileFilter applyFilters={applyFilters} />
-            </div>
+        <>
+        { getRole() === 'STUDENT' ? (
+            //case for when the user is a student
+            <div className="AppNonCenter">
+                <div style={{ marginTop: 100, backgroundColor: 'white', padding: '1rem', borderBottom: '1px solid #ccc' }}>
+                    <TextField
+                        type="text"
+                        variant="outlined"
+                        fullWidth
+                        value={searchQuery}
+                        onChange={handleSearchInputChange}
+                        placeholder="Search profiles..."
+                        sx={{ marginBottom: 3 }}
+                        autoComplete='off'
+                    />
+                    <ProfileFilter applyFilters={applyFilters} />
+                </div>
 
-            <div style={{ marginTop: '4rem'}}>
-                {loading && <p>Loading...</p>}
-                {error && <p>Error: {error}</p>}
-                {profilesToDisplay.length > 0 ? (
-                    <Grid container spacing={2}>
-                        {profilesToDisplay.slice(0, 6).map((result) => (
-                            <Grid item key={result.id} xs={12}>
-                                <ProfileCard profile={result} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                ) : (
-                    <p className={searchQuery ? "instructions" : "offscreen"}>No results found.</p>
-                )}
+                <div style={{ marginTop: '4rem'}}>
+                    {loading && <p>Loading...</p>}
+                    {error && <p>Error: {error}</p>}
+                    {profilesToDisplay.length > 0 ? (
+                        <Grid container spacing={2}>
+                            {profilesToDisplay.slice(0, 6).map((result) => (
+                                <Grid item key={result.id} xs={12}>
+                                    <ProfileCard profile={result} />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    ) : (
+                        <p className={searchQuery ? "instructions" : "offscreen"}>No results found.</p>
+                    )}
+                </div>
             </div>
-        </div>
+        ) : (
+            // case for when the user is a tutor
+            <div>
+                <p>I am a Tutor.</p>
+            </div>
+        )}
+        </>
     );
 };
 
