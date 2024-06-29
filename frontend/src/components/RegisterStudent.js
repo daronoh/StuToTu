@@ -73,7 +73,7 @@ const RegisterStudent = () => {
             if (!err?.response) {
                 setErrMsg('No server response');
             } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
+                setErrMsg(err.response.data);
             } else {
                 setErrMsg('Registration failed')
             }

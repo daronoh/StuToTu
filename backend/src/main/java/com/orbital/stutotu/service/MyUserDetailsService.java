@@ -1,9 +1,9 @@
 package com.orbital.stutotu.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,8 +24,13 @@ public class MyUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+
+        var springUser = User.withUsername(user.getUsername())
+                            .password(user.getPassword())
+                            .roles(user.getRole())
+                            .build();
+        
+        return springUser;
     }
 
     public List<Profile> searchTutorProfiles(String query) {

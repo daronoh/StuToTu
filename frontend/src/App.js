@@ -25,7 +25,7 @@ function App() {
         <Route path = "RegisterStudent" element={<RegisterStudent />} />
         <Route path = "Unauthorized" element={<Unauthorized />} />
         {}
-        <Route element={<RequireAuth />}>
+        <Route element={<RequireAuth allowedRole={["TUTOR", "STUDENT"]} />}>
         <Route path = "Home" element={<Home />} />
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />

@@ -42,6 +42,7 @@ public class ProfileController {
     // GET profile by username
     @GetMapping("/{username}")
     public ResponseEntity<Profile> getProfileByUsername(@PathVariable String username) {
+        System.out.println("getting profile");
         try {
             Profile profile = userRepository.findByUsername(username);
             if (profile == null) {
