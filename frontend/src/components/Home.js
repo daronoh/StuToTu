@@ -3,15 +3,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from '../api/axios';
 import ProfileCard from './ProfileCard';
 import ProfileFilter from './ProfileFilter';
-import AuthContext from '../context/AuthProvider';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const { getRole } = useContext(AuthContext);
+    const { getRole, logout } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -57,6 +59,10 @@ const Home = () => {
             setFilteredProfiles(response.data);
             setLoading(false);
         } catch (error) {
+            if (error.response?.status === 401) {
+                logout();
+                navigate('/login');
+            }
             setError(error.message);
             setLoading(false);
         }

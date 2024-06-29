@@ -1,16 +1,17 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
-    const { getToken, getUser } = useAuth(); 
+    const { getToken, getUser, logout } = useAuth(); 
     const [profileData, setProfileData] = useState(null); // State to store profile data
     const [loading, setLoading] = useState(true); // State to manage loading state
     const authenticatedUsername = getUser();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -24,6 +25,10 @@ const Profile = () => {
                 setProfileData(response.data);
                 setLoading(false);
             } catch (error) {
+                if (error.response?.status === 401) {
+                    logout();
+                    navigate('/login');
+                }
                 console.error('Error fetching profile data:', error);
                 setLoading(false);
             }

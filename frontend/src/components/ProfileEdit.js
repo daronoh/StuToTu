@@ -35,7 +35,7 @@ const marks = [
 const ProfileEdit = () => {
     const navigate = useNavigate();
     const { username } = useParams(); // Access the username parameter from the route
-    const { getToken } = useAuth(); 
+    const { getToken, logout } = useAuth(); 
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -68,7 +68,11 @@ const ProfileEdit = () => {
                 setDescription(profileData.description || '');
                 setRate(profileData.rate || 0);
                 setLocation(profileData.location || '');
-            } catch (err) {
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    logout();
+                    navigate('/login');
+                }
                 setErrMsg('Failed to load profile data');
             }
         };

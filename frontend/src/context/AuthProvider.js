@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const getToken = () => {
-        console.log('returning token: ' + auth.token);
+        console.log('getting token');
         return auth ? auth?.token : null;
     };
 

@@ -32,7 +32,7 @@ const Login = () => {
                 }
             );
             // Store JWT token in local storage or cookie
-            const accessToken = response?.data?.accessToken;
+            const accessToken = response?.data?.token;
             const userRole = response?.data?.role;
             setAuthState(user, accessToken, userRole);
             setUser('');
