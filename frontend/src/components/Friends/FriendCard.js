@@ -2,6 +2,7 @@ import { Avatar, Button, Card, CardActionArea, CardContent, Grid, Typography } f
 import useAuth from "../../hooks/useAuth";
 import defaultProfilePic from '../../assets/default-profile-pic.png';
 import axios from "../../api/axios";
+import { Link } from "react-router-dom";
 
 const FriendCard = ({ profile }) => {
     const { getToken, getUser } = useAuth();
@@ -23,7 +24,7 @@ const FriendCard = ({ profile }) => {
     return (
       <Card style={{ marginBottom: '10px' }}>
           <CardContent>
-            <CardActionArea>
+          <CardActionArea component={Link} to={`/ChatRoom/${profile.username}`}> 
             <Grid container alignItems="center">
               <Grid item xs={9}>
                 <Typography variant="h5" component="h2">
