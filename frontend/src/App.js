@@ -12,6 +12,7 @@ import RequireAuth from './components/RequireAuth';
 import Unauthorized from './components/Unauthorized';
 import Home from './components/Home';
 import useAuth from './hooks/useAuth';
+import ChatRoom from './components/chat/ChatRoom';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         {}
         <Route element={<RequireAuth allowedRole={["TUTOR", "STUDENT"]} />}>
         <Route path = "Home" element={<Home />} />
+        <Route path = "ChatRoom/:otherUser" element={<ChatRoom />} />
         <Route path = "Search" element={<Search />} />
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
