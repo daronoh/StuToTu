@@ -1,7 +1,7 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 import AddAsFriendButton from './Friends/AddAsFriendButton';
@@ -51,6 +51,7 @@ const Profile = () => {
 
     return (
         <div className='body-content'>
+
             {getRole() !== profileData.role && !isFriend ? (
                 <AddAsFriendButton requestData={{requester: getUser(), receiver: profileData.username}}/>
             ) : getUser() !== profileData.username ? (
