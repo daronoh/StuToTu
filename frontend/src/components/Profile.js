@@ -63,8 +63,15 @@ const Profile = () => {
                 </Button>
             )}
 
-            {getRole() !== profileData.role && !isFriend && (
+            {getRole() !== profileData.role && !isFriend ? (
                 <AddAsFriendButton requestData={{requester: getUser(), receiver: profileData.username}}/>
+            ) : (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ top: 200, right: 100, position: 'absolute' }}
+                    disabled="true"
+                >Already added as Friend</Button>
             )}
 
             <Grid container spacing={0} className='centered-container'>
