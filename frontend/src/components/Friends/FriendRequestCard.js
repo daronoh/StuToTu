@@ -39,10 +39,11 @@ const FriendRequestCard = ({profile}) => {
 
     return (
         <Card style={{ marginBottom: '10px' }}>
-        <CardActionArea component={Link} to={`/profile/${profile.username}`}> 
+        
           <CardContent>
             <Grid container alignItems="center">
               <Grid item xs={9}>
+              <CardActionArea component={Link} to={`/profile/${profile.username}`}> 
                 <Typography variant="h5" component="h2">
                   {profile.firstName} {profile.lastName}
                 </Typography>
@@ -55,6 +56,7 @@ const FriendRequestCard = ({profile}) => {
                 <Typography color="textSecondary">
                   Location: {profile.location}
                 </Typography>
+                </CardActionArea>
                 {getRole() === 'TUTOR' && (
                 <div>
                 <Button
@@ -83,7 +85,6 @@ const FriendRequestCard = ({profile}) => {
               </Grid>
             </Grid>
           </CardContent>
-        </CardActionArea>
       </Card>
       );
 }
