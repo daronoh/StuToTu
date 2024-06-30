@@ -1,10 +1,10 @@
 import { Grid, TextField } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
+import useAuth from '../hooks/useAuth';
 import ProfileCard from './ProfileCard';
 import ProfileFilter from './ProfileFilter';
-import useAuth from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
     const { getRole, logout, getToken } = useAuth();
@@ -91,10 +91,13 @@ const Search = () => {
                     <ProfileFilter applyFilters={applyFilters} />
                 </div>
 
-                <div style={{ marginTop: '4rem'}}>
+                <div style={{ marginTop: '4rem' }}>
                     {loading && <p>Loading...</p>}
                     {error && <p>Error: {error}</p>}
-                    {profilesToDisplay.length > 0 ? (
+                    {!loading && profilesToDisplay.length === 0 && (
+                        <p>Profile not found.</p>
+                    )}
+                    {profilesToDisplay.length > 0 && (
                         <Grid container spacing={2}>
                             {profilesToDisplay.slice(0, 6).map((result) => (
                                 <Grid item key={result.id} xs={12}>
@@ -102,8 +105,6 @@ const Search = () => {
                                 </Grid>
                             ))}
                         </Grid>
-                    ) : (
-                        <p className={searchQuery ? "instructions" : "offscreen"}>No results found.</p>
                     )}
                 </div>
             </div>
