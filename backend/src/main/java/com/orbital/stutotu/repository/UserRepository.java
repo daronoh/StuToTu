@@ -29,19 +29,17 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Profile> searchTutorProfile(@Param("query") String query);
 
-    // for filtering profiles
-    @Query("SELECT p FROM Profile p " +
-           "WHERE (:subjects IS NULL OR EXISTS (SELECT 1 FROM Profile pr WHERE pr.id = p.id AND :subjects IN elements(pr.subjects))) " +
-           "AND (:gender IS NULL OR p.gender = :gender) " +
-           "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
-           "AND (:location IS NULL OR p.location = :location) " +
-           "AND (:rate IS NULL OR p.rate <= :rate)")
-    List<Profile> findByFilters(
-            @Param("subjects") List<String> subjects,
-            @Param("gender") String gender,
-            @Param("educationLevel") String educationLevel,
-            @Param("location") String location,
-            @Param("rate") int rate);
+       // for filtering profiles
+       @Query("SELECT p FROM Profile p " +
+              "WHERE (:gender IS NULL OR p.gender = :gender) " +
+              "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
+              "AND (:location IS NULL OR p.location = :location) " +
+              "AND (p.rate <= :rate)")
+       List<Profile> findByFilters(
+              @Param("gender") String gender,
+              @Param("educationLevel") String educationLevel,
+              @Param("location") String location,
+              @Param("rate") Integer rate);
 
     @Query("SELECT p.role FROM Profile p WHERE p.username = :username")
     String findRoleByUsername(@Param("username") String username);

@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
+import AddAsFriendButton from './Friends/AddAsFriendButton';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
-    const { getToken, getUser, logout } = useAuth(); 
+    const { getToken, getUser, logout, getRole } = useAuth(); 
     const [profileData, setProfileData] = useState(null); // State to store profile data
     const [loading, setLoading] = useState(true); // State to manage loading state
-    const authenticatedUsername = getUser();
+    const [isFriend, setIsFriend] = useState(false); // state to manage whether the profile is a friend of the user
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,6 +25,9 @@ const Profile = () => {
                 });
                 setProfileData(response.data);
                 setLoading(false);
+                if (response.data.friends && response.data.friends.some(friend => friend.username === getUser())) {
+                    setIsFriend(true);
+                }
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
@@ -45,11 +49,9 @@ const Profile = () => {
         return <div>Profile not found or error fetching data.</div>;
     }
 
-    const isOwnProfile = authenticatedUsername === profileData.username;
-
     return (
         <div className='body-content'>
-            {isOwnProfile && (
+            {getUser() === profileData.username && (
                 <Button
                     component={Link}
                     to={`/profile/edit/${username}`}
@@ -59,6 +61,10 @@ const Profile = () => {
                 >
                     Edit Profile
                 </Button>
+            )}
+
+            {getRole() !== profileData.role && !isFriend && (
+                <AddAsFriendButton requestData={{requester: getUser(), receiver: profileData.username}}/>
             )}
 
             <Grid container spacing={0} className='centered-container'>

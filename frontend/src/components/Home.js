@@ -1,117 +1,73 @@
-import { Grid, TextField } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
-import axios from '../api/axios';
-import ProfileCard from './ProfileCard';
-import ProfileFilter from './ProfileFilter';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import useAuth from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import FriendRequestCard from './Friends/FriendRequestCard';
+import FriendCard from './Friends/FriendCard';
 
 const Home = () => {
-    const { getRole, logout } = useAuth();
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [filteredProfiles, setFilteredProfiles] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    const { getToken, getUser } = useAuth();
+    const [pendingRequests, setPendingRequests] = useState([]);
+    const [Friends, setFriends] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`/api/profile/search`, { 
-                    params: { query: searchQuery }
-                });
-                setSearchResults(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setLoading(false);
-            }
-        };
+        fetchPendingRequests(getUser());
+        fetchFriends(getUser());
+    }, []);
 
-        if (searchQuery.trim() !== '') {
-            fetchData();
-        } else {
-            setSearchResults([]);
-        }
-    }, [searchQuery]);
-
-    const handleSearchInputChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-    const applyFilters = async (filters) => {
-        setLoading(true);
+    const fetchPendingRequests = async (username) => {
         try {
-            const response = await axios.get('/api/profile/filter', {
-                params: {
-                    subjects: JSON.stringify(filters.subjects),  // Encode array as JSON
-                    gender: filters.gender,
-                    educationLevel: filters.educationLevel,
-                    location: filters.location,
-                    rate: filters.rate,
-                },
-                paramsSerializer: params => {
-                    return new URLSearchParams(params).toString();
-                }
-            });
-            setFilteredProfiles(response.data);
-            setLoading(false);
+        const response = await axios.get(`/api/friends/pending/${username}`, {
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+        });
+        setPendingRequests(response.data);
         } catch (error) {
-            if (error.response?.status === 401) {
-                logout();
-                navigate('/login');
-            }
-            setError(error.message);
-            setLoading(false);
+        console.error('Error fetching pending requests:', error);
         }
     };
 
-    const profilesToDisplay = filteredProfiles.length > 0 ? filteredProfiles : searchResults;
+    const fetchFriends = async (username) => {
+        try {
+        const response = await axios.get(`/api/friends/${username}`, {
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+        });
+        setFriends(response.data);
+        } catch (error) {
+        console.error('Error fetching pending requests:', error);
+        }
+    };
 
     return (
-        <>
-        { getRole() === 'STUDENT' ? (
-            //case for when the user is a student
-            <div className="AppNonCenter">
-                <div style={{ marginTop: 100, backgroundColor: 'white', padding: '1rem', borderBottom: '1px solid #ccc' }}>
-                    <TextField
-                        type="text"
-                        variant="outlined"
-                        fullWidth
-                        value={searchQuery}
-                        onChange={handleSearchInputChange}
-                        placeholder="Search profiles..."
-                        sx={{ marginBottom: 3 }}
-                        autoComplete='off'
-                    />
-                    <ProfileFilter applyFilters={applyFilters} />
-                </div>
-
-                <div style={{ marginTop: '4rem'}}>
-                    {loading && <p>Loading...</p>}
-                    {error && <p>Error: {error}</p>}
-                    {profilesToDisplay.length > 0 ? (
-                        <Grid container spacing={2}>
-                            {profilesToDisplay.slice(0, 6).map((result) => (
-                                <Grid item key={result.id} xs={12}>
-                                    <ProfileCard profile={result} />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    ) : (
-                        <p className={searchQuery ? "instructions" : "offscreen"}>No results found.</p>
-                    )}
-                </div>
+        <div>
+            <div style={{ marginTop: '4rem'}}>
+                <h2 style={{textAlign: 'center'}}>Pending Friend Requests</h2>
+                {pendingRequests.length > 0 ? (
+                    <Grid container spacing={0}>
+                        {pendingRequests.slice(0, 6).map((result) => (
+                            <Grid item key={result.id} xs={12}>
+                                <FriendRequestCard profile={result} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <p style={{textAlign: 'center'}}> empty </p>
+                )}
             </div>
-        ) : (
-            // case for when the user is a tutor
-            <div>
-                <p>I am a Tutor.</p>
+            <div style={{ marginTop: '4rem'}}>
+                <h2 style={{textAlign: 'center'}}>Friends</h2>
+                {Friends.length > 0 ? (
+                    <Grid container spacing={0}>
+                        {Friends.slice(0, 6).map((result) => (
+                            <Grid item key={result.id} xs={12}>
+                                <FriendCard profile={result} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <p style={{textAlign: 'center'}}> empty </p>
+                )}
             </div>
-        )}
-        </>
+        </div>
     );
 };
 

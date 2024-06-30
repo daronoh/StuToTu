@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
-  const { getUser, logout } = useAuth();
+  const { getUser, logout, getRole } = useAuth();
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const navigate = useNavigate();
   const user = getUser();
@@ -37,6 +37,11 @@ const Navbar = () => {
           <li>
               <button onClick={() => navigate('/home')} className="link-button">Home</button>
             </li>
+            {getRole() === "STUDENT" && (
+              <li>
+                <button onClick={() => navigate('/search')} className="link-button">Search</button>
+              </li>
+            )}
             <li>
               <button onClick={handleProfile} className="link-button">My Profile</button>
             </li>

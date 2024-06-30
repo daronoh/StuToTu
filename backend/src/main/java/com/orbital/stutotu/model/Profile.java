@@ -1,8 +1,11 @@
 package com.orbital.stutotu.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -10,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,6 +63,14 @@ public class Profile {
 
     private String role;
 
+    @JsonIgnoreProperties("friends")
+    @ManyToMany
+    private List<Profile> friends; 
+
+    @JsonIgnoreProperties("pendingRequests")
+    @ManyToMany
+    private List<Profile> pendingRequests; 
+
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
         this.password = password;
@@ -68,6 +80,8 @@ public class Profile {
         this.gender = gender;
         this.rate = 0;
         this.role = role;
+        this.friends = new ArrayList<>();
+        this.pendingRequests = new ArrayList<>();
     }
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
@@ -83,6 +97,8 @@ public class Profile {
         this.location = location;
         this.rate = rate;
         this.role = role;
+        this.friends = new ArrayList<>();
+        this.pendingRequests = new ArrayList<>();
     }
 
     // Factory methods for creating specific roles
