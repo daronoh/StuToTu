@@ -35,7 +35,7 @@ const marks = [
 const ProfileEdit = () => {
     const navigate = useNavigate();
     const { username } = useParams(); // Access the username parameter from the route
-    const { getToken, logout } = useAuth(); 
+    const { getToken, logout, getRole } = useAuth(); 
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -176,6 +176,8 @@ const ProfileEdit = () => {
                         </Box>
                     </Grid>
 
+                {getRole() === 'TUTOR' && (
+                    <>
                     <Grid item xs={6}>
                         <Box>
                             <FormControl fullWidth>
@@ -242,6 +244,8 @@ const ProfileEdit = () => {
                             required
                         />
                     </Grid>
+                    </>
+                )};
 
                     <Grid item xs={12}>
                         <TextField

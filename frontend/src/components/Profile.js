@@ -1,7 +1,7 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 import AddAsFriendButton from './Friends/AddAsFriendButton';
@@ -51,18 +51,6 @@ const Profile = () => {
 
     return (
         <div className='body-content'>
-            {getUser() === profileData.username && (
-                <Button
-                    component={Link}
-                    to={`/profile/edit/${username}`}
-                    variant="contained"
-                    color="primary"
-                    style={{top: 100, right: 100, position: 'absolute'}}
-                >
-                    Edit Profile
-                </Button>
-            )}
-
             {getRole() !== profileData.role && !isFriend && (
                 <AddAsFriendButton requestData={{requester: getUser(), receiver: profileData.username}}/>
             )}
@@ -93,7 +81,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={5}>
                     <div className='centered-box'>
-                    <Typography variant="body1">Username:</Typography>
+                    <Typography variant="body1">Email:</Typography>
                     <Box
                         alignItems="center"
                         gap={4}
@@ -130,7 +118,9 @@ const Profile = () => {
                     </Box>
                     </div>
                 </Grid>
-                <Grid item xs={5}>
+                {profileData.role === 'TUTOR' && (
+                    <>
+                    <Grid item xs={5}>
                     <div className='centered-box'>
                     <Typography variant="body1">Education Level:</Typography>
                     <Box
@@ -182,6 +172,8 @@ const Profile = () => {
                     </Box>
                     </div>
                 </Grid>
+            </>
+                )}
                 <Grid item xs={12}>
                     <div>
                     <Typography variant="body1">Description:</Typography>
@@ -190,12 +182,11 @@ const Profile = () => {
                         gap={4}
                         p={2}
                         sx={{ border: '2px solid grey' }}
-                        >
+                    >
                         {profileData.description}
                     </Box>
                     </div>
                 </Grid>
-
             </Grid>
             </div>
         );

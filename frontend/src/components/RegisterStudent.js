@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from "react";
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faInfoCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
-import { InputLabel, MenuItem, OutlinedInput, Select, Slider, Typography } from '@mui/material';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,15}$/;
 const PWD_REGEX = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,24}$/;
@@ -94,7 +93,7 @@ const RegisterStudent = () => {
         <div>
             <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <h1>StuToTu</h1>
-            <h2>Register as a Tutor</h2>
+            <h2>Register as a Student</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">
                     Username:
