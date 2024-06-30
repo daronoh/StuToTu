@@ -33,7 +33,6 @@ const Navbar = () => {
         </button>
         <Link to="/Home" className="site-title">StuToTu</Link>
         <ul className={`nav-links ${sideNavOpen ? 'hidden' : ''}`}>
-          <>
           <li>
               <button onClick={() => navigate('/home')} className="link-button">Home</button>
             </li>
@@ -51,21 +50,19 @@ const Navbar = () => {
             <li>
               <button onClick={() => navigate(`/profile/edit/${user}`)} className="link-button">Settings</button>
             </li>
+            
             <li>
               <button onClick={handleLogout} className="logout-button">Logout</button>
             </li>
-          </>
         </ul>
       </nav>
       <div className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
         <button className="closebtn" onClick={toggleSideNav}>&times;</button>
-        <>
           <button onClick={() => navigate('/home')} className="link-button">Home</button>
           <button onClick={handleProfile} className="link-button">My Profile</button>
           <button onClick={() => navigate('/calendar')} className="link-button">Shared Calendar</button>
           <button onClick={() => navigate(`/profile/edit/${user}`)} className="link-button">Settings</button>
           <button onClick={handleLogout}>Logout</button>
-        </>
       </div>
     </div>
   );
