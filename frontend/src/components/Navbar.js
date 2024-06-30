@@ -48,6 +48,10 @@ const Navbar = () => {
               <button onClick={() => navigate('/calendar')} className="link-button">Shared Calendar</button>
             </li>
             <li>
+              <button onClick={() => navigate(`/profile/edit/${user}`)} className="link-button">Settings</button>
+            </li>
+            
+            <li>
               <button onClick={handleLogout} className="logout-button">Logout</button>
             </li>
         </ul>
@@ -57,6 +61,7 @@ const Navbar = () => {
           <button onClick={() => navigate('/home')} className="link-button">Home</button>
           <button onClick={handleProfile} className="link-button">My Profile</button>
           <button onClick={() => navigate('/calendar')} className="link-button">Shared Calendar</button>
+          <button onClick={() => navigate(`/profile/edit/${user}`)} className="link-button">Settings</button>
           <button onClick={handleLogout}>Logout</button>
       </div>
     </div>
