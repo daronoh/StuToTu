@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +19,7 @@ import com.orbital.stutotu.model.Profile;
 import com.orbital.stutotu.repository.UserRepository;
 import com.orbital.stutotu.security.JwtUtil;
 
-// @CrossOrigin(origins = "https://stutotu.netlify.app/")
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {

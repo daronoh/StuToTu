@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Paper, Select, Slider, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const MenuProps = {
@@ -34,8 +34,8 @@ const marks = [
 
 const ProfileEdit = () => {
     const navigate = useNavigate();
-    const { username } = useParams(); // Access the username parameter from the route
-    const { getToken, logout, getRole } = useAuth(); 
+    const { getUser, getToken, logout, getRole } = useAuth(); 
+    const username = getUser();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -47,9 +47,10 @@ const ProfileEdit = () => {
     const [description, setDescription] = useState('');
     const [rate, setRate] = useState(0);
     const [location, setLocation] = useState('');
-    const [newTag, setNewTag] = useState(''); 
+    const [newTags, setNewTags] = useState([]); 
     const [errMsg, setErrMsg] = useState('');
-    const [tags, setTags] = useState([]);
+    const [profileTags, setProfileTags] = useState([]);
+    const [tagOptions, setTagOptions] = useState([]);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -70,7 +71,8 @@ const ProfileEdit = () => {
                 setDescription(profileData.description || '');
                 setRate(profileData.rate || 0);
                 setLocation(profileData.location || '');
-                setTags(profileData.tags || []);
+                setProfileTags((profileData.tags || []).filter(tag => tag.inProfile));
+                setTagOptions((profileData.tags || []).filter(tag => tag.validated));
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
@@ -110,7 +112,7 @@ const ProfileEdit = () => {
                     description: description,
                     rate: rate,
                     location: location,
-                    tags: tags
+                    tags: newTags
                 }),
                 {
                     headers: {'Content-Type': 'application/json',
@@ -122,27 +124,6 @@ const ProfileEdit = () => {
             setErrMsg('Failed to update');
         }
     }
-
-    const addTag = () => {
-        if (newTag.trim() !== '' && !tags.includes(newTag.trim())) {
-            setTags([...tags, newTag.trim()]);
-            setNewTag('');
-        } else {
-            setErrMsg('Tag is empty or already exists.');
-        }
-    };
-
-    const removeTag = (index) => {
-        const updatedTags = [...tags];
-        updatedTags.splice(index, 1);
-        setTags(updatedTags);
-    };
-
-    const confirmRemoveTag = (index) => {
-        if (window.confirm('Are you sure you want to remove this tag?')) {
-            removeTag(index);
-        }
-    };
 
     return (
         <div style={{marginTop: 70}}>
@@ -211,7 +192,7 @@ const ProfileEdit = () => {
                                     multiple
                                     value={subject}
                                     onChange={(e) => setSubject(e.target.value)}
-                                    input={<OutlinedInput label="Name" />}
+                                    input={<OutlinedInput label="Subjects" />}
                                     MenuProps={MenuProps}
                                 >
                                     {subjects.map((name) => (
@@ -269,8 +250,27 @@ const ProfileEdit = () => {
                             required
                         />
                     </Grid>
-                    </>
-                )};
+
+                    <Grid item xs={6}>
+                        <Box>
+                            <FormControl fullWidth>
+                                <InputLabel>Tags</InputLabel>
+                                <Select
+                                    multiple
+                                    value={newTags}
+                                    onChange={(e) => setNewTags(e.target.value)}
+                                    input={<OutlinedInput label="Tags" />}
+                                    MenuProps={MenuProps}
+                                >
+                                    {tagOptions.map((tag) => (
+                                        <MenuItem key={tag.name} value={tag.name}>
+                                            {tag.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
 
                     <Grid item xs={12}>
                         <TextField
@@ -284,40 +284,9 @@ const ProfileEdit = () => {
                         />
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Box mt={2}>
-                            <Typography variant="h6">Tags:</Typography>
-                            <Box display="flex" alignItems="center" mt={1}>
-                                <TextField
-                                    label="Add Tag"
-                                    variant="outlined"
-                                    value={newTag}
-                                    onChange={(e) => setNewTag(e.target.value)}
-                                    fullWidth
-                                    />
-                                    <Button
-                                        variant="contained"
-                                        colour="primary"
-                                        onClick={addTag}
-                                        style={{ marginLeft: '10px' }}
-                                    >
-                                        Add
-                                    </Button>
-                            </Box>
-                            <Box mt={1}>
-                                {tags.map((tag, index) => (
-                                    <Button
-                                        key={index}
-                                        variant="outlined"
-                                        style={{ marginRight: '10px', margineBottom: '10px' }}
-                                        onClick={() => removeTag(index)}
-                                    >
-                                        {tag}
-                                    </Button>
-                                ))}
-                            </Box>
-                        </Box>
-                    </Grid>
+                    
+                    </>
+                )}
 
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <Button type="submit" variant="contained" color="primary">

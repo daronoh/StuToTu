@@ -186,8 +186,12 @@ const Profile = () => {
                                     <Box mb={2}>
                                         <Grid container spacing={2} alignItems="center">
                                             <Grid item> 
-                                                <Typography variant="h6">Tags:</Typography>
-                                                <Typography variant="h6">{profileData.tags && profileData.tags.join(', ')}</Typography>
+                                                <Typography variant="body1">Tags:</Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                {profileData.tags.filter(tag => tag.inProfile).map(tag => (
+                                                    <Typography key={tag.name} variant="h6">{tag.name} </Typography>
+                                                ))}
                                             </Grid>
                                         </Grid>
                                     </Box>

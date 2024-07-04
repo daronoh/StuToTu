@@ -12,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orbital.stutotu.model.ChatMessage;
-import com.orbital.stutotu.repository.ChatMessageRepository;
 import com.orbital.stutotu.service.ChatMessageService;
 
 @RestController
 public class ChatController {
-
-    @Autowired
-    private ChatMessageRepository chatMessageRepository;
 
     @Autowired
     private ChatMessageService chatMessageService;

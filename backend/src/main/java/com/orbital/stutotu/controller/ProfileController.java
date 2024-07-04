@@ -1,34 +1,29 @@
 package com.orbital.stutotu.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orbital.stutotu.dto.ProfileEditDTO;
 import com.orbital.stutotu.exception.ResourceNotFoundException;
 import com.orbital.stutotu.model.Profile;
 import com.orbital.stutotu.model.Tag;
-import com.orbital.stutotu.repository.TagRepository;
 import com.orbital.stutotu.repository.UserRepository;
 import com.orbital.stutotu.service.MyUserDetailsService;
 
 
 @Validated
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileController {
@@ -38,9 +33,6 @@ public class ProfileController {
 
     @Autowired
     private MyUserDetailsService userService;
-
-    @Autowired
-    private TagRepository tagRepository;
 
     @GetMapping("/search")
     public ResponseEntity<List<Profile>> searchTutorProfiles(@RequestParam String query) {
@@ -65,7 +57,7 @@ public class ProfileController {
 
     // Update profile information
     @PutMapping("/edit/{username}")
-    public ResponseEntity<Profile> updateProfile(@PathVariable String username, @Valid @RequestBody Profile profileDetails) {
+    public ResponseEntity<Profile> updateProfile(@PathVariable String username, @Valid @RequestBody ProfileEditDTO profileDetails) {
         Profile profile = userRepository.findByUsername(username);
         if (profile == null) {
             throw new ResourceNotFoundException("Profile not found with username: " + username);
@@ -82,6 +74,15 @@ public class ProfileController {
             profile.setEducationLevel(profileDetails.getEducationLevel());
             profile.setLocation(profileDetails.getLocation());
             profile.setRate(profileDetails.getRate());
+            List<Tag> profileTags = profile.getTags();
+            for (Tag t : profileTags) {
+                if (profileDetails.getTags().contains(t.getName())) {
+                    t.addToProfile();
+                } else {
+                    t.removeFromProfile();
+                }
+            }
+
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);
@@ -106,9 +107,9 @@ public class ProfileController {
         return ResponseEntity.ok(filteredProfiles);
     }
 
-    public interface ProfileRepository extends JpaRepository<Profile, Long> {
-        List<Profile> findByTagsContaining(String tag);
 }
+
+/* 
 
     @PostMapping("/addTag")
     public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag, @RequestParam String type) {
@@ -145,30 +146,5 @@ public class ProfileController {
 
 }
 
+*/
 
-/*import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import java.math.BigDecimal;
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/profile")
-public class ProfileController {
-
-    private final UserRepository userRepository;
-
-    public ProfileController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping("/filter")
-    public List<Profile> filterProfiles(
-            @RequestParam(required = false) List<String> subjects,
-            @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String educationLevel,
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) BigDecimal rate) {
-        return userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
-    }
-}*/

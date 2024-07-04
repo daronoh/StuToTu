@@ -72,7 +72,7 @@ public class Profile {
     private List<Profile> pendingRequests; 
 
     @ElementCollection
-    private List<String> tags;
+    private List<Tag> tags;
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
@@ -102,6 +102,16 @@ public class Profile {
         this.role = role;
         this.friends = new ArrayList<>();
         this.pendingRequests = new ArrayList<>();
+        ArrayList<Tag> strings = new ArrayList<>();
+        strings.add(new Tag("Patient"));
+        strings.add(new Tag("Organized"));
+        strings.add(new Tag("Topic-oriented"));
+        strings.add(new Tag("Exam-oriented"));
+        strings.add(new Tag("Adaptable"));
+        strings.add(new Tag("Structured"));
+        strings.add(new Tag("Visual"));
+        strings.add(new Tag("Practical"));
+        this.tags = strings;
     }
 
     // Factory methods for creating specific roles

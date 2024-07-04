@@ -33,7 +33,7 @@ function App() {
         <Route path = "Search" element={<Search />} />
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
-        <Route path = "Profile/Edit/:username" element={<ProfileEdit />} />
+        <Route path = "Profile/Edit" element={<ProfileEdit />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />
