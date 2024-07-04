@@ -1,15 +1,18 @@
 package com.orbital.stutotu.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orbital.stutotu.exception.ResourceNotFoundException;
 import com.orbital.stutotu.model.Profile;
+import com.orbital.stutotu.model.Tag;
+import com.orbital.stutotu.repository.TagRepository;
 import com.orbital.stutotu.repository.UserRepository;
 import com.orbital.stutotu.service.MyUserDetailsService;
+
 
 @Validated
 @CrossOrigin(origins = "http://localhost:3000")
@@ -32,6 +38,9 @@ public class ProfileController {
 
     @Autowired
     private MyUserDetailsService userService;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @GetMapping("/search")
     public ResponseEntity<List<Profile>> searchTutorProfiles(@RequestParam String query) {
@@ -96,6 +105,43 @@ public class ProfileController {
                 gender, educationLevel, location, rate);
         return ResponseEntity.ok(filteredProfiles);
     }
+
+    public interface ProfileRepository extends JpaRepository<Profile, Long> {
+        List<Profile> findByTagsContaining(String tag);
+}
+
+    @PostMapping("/addTag")
+    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag, @RequestParam String type) {
+        Optional<Profile> profileOpt = userRepository.findById(profileId);
+        if (profileOpt.isPresent()) {
+            Profile profile = profileOpt.get();
+
+            profile.getTags().add(tag);
+            userRepository.save(profile);
+
+            tagRepository.save(new Tag());
+
+            return ResponseEntity.ok("Tag added successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/validateTag")
+    public ResponseEntity<?> validateTag(@RequestParam Long tagId, @RequestParam boolean validated) {
+        Optional<Tag> tagOpt = tagRepository.findById(tagId);
+            if (tagOpt.isPresent()) {
+                Tag tag = tagOpt.get();
+                
+                // Set the validation status of the tag
+                tag.setValidated(validated);
+                tagRepository.save(tag);
+                
+                return ResponseEntity.ok("Tag validation status updated");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
 
 }
 

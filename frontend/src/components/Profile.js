@@ -1,7 +1,8 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 import AddAsFriendButton from './Friends/AddAsFriendButton';
@@ -42,7 +43,11 @@ const Profile = () => {
     }, [username, getToken]); // Fetch profile data when username changes
 
     if (loading) {
-        return <div>Loading...</div>; 
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
     }
 
     if (!profileData) {
@@ -51,153 +56,204 @@ const Profile = () => {
 
     return (
         <div className='body-content'>
-
             {getRole() !== profileData.role && !isFriend ? (
                 <AddAsFriendButton requestData={{requester: getUser(), receiver: profileData.username}}/>
             ) : getUser() !== profileData.username ? (
                 <Button
                     variant="contained"
                     color="primary"
-                    style={{ top: 200, right: 100, position: 'absolute' }}
-                    disabled="true"
-                >Already added as Friend</Button>
+                    style={{ top: 200, right: 60, position: 'absolute' }}
+                    disabled={true}
+                >Added as Friend</Button>
             ) : (<></>)}
 
-            <Grid container spacing={0} className='centered-container'>
-                <Grid item xs={12}>
-                    <Typography variant="h3">Profile Page</Typography>
-                </Grid>
-                <Grid item xs={12}>
+            <Grid container spacing={2} mb={8} justifyContent="center">
+                <Grid item xs={12} mb={2} textAlign="center">
                     <img 
                         src={profileData.profilePicture || defaultProfilePic} 
                         alt="Profile" 
-                        style={{ width: '100px', height: '100px', borderRadius: '50%' }} 
+                        style={{ width: '150px', height: '150px', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }} 
                     />
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Username:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
+                    <Typography variant="h3" gutterBottom>
                         {profileData.username}
-                    </Box>
-                    </div>
+                    </Typography>
                 </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Email:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.email}
-                    </Box>
-                    </div>
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Name:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.firstName && profileData.lastName ? profileData.firstName + ' ' + profileData.lastName : ''}
-                    </Box>
-                    </div>
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Gender:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.gender}
-                    </Box>
-                    </div>
-                </Grid>
-                {profileData.role === 'TUTOR' && (
-                    <>
-                    <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Education Level:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.educationLevel}
-                    </Box>
-                    </div>
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Subjects:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.subjects && profileData.subjects.length > 0 ? profileData.subjects.join(', ') : 'No subjects'}
-                    </Box>
-                    </div>
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Location:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.location}
-                    </Box>
-                    </div>
-                </Grid>
-                <Grid item xs={5}>
-                    <div className='centered-box'>
-                    <Typography variant="body1">Rate:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                        >
-                        {profileData.rate}
-                    </Box>
-                    </div>
-                </Grid>
-            </>
-                )}
-                <Grid item xs={12}>
-                    <div>
-                    <Typography variant="body1">Description:</Typography>
-                    <Box
-                        alignItems="center"
-                        gap={4}
-                        p={2}
-                        sx={{ border: '2px solid grey' }}
-                    >
-                        {profileData.description}
-                    </Box>
-                    </div>
+
+                <Grid item xs={10} md={15}>
+                    <Grid container spacing={5}>
+                        {profileData.role === 'TUTOR' ? (
+                            <>
+                                <Grid item xs={12} md={6}>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Person />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Name:</Typography>
+                                                <Typography variant="h6">
+                                                    {profileData.firstName && profileData.lastName ? profileData.firstName + ' ' + profileData.lastName : ''}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Email />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Email:</Typography>
+                                                <Typography variant="h6">{profileData.email}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Person />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Gender:</Typography>
+                                                <Typography variant="h6">{profileData.gender}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <School />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Education Level:</Typography>
+                                                <Typography variant="h6">{profileData.educationLevel}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <LocalLibrary />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Subjects:</Typography>
+                                                <Typography variant="h6">
+                                                    {profileData.subjects && profileData.subjects.length > 0 ? profileData.subjects.join(', ') : 'No subjects'}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <LocationOn />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Location:</Typography>
+                                                <Typography variant="h6">{profileData.location}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <AttachMoney />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Rate:</Typography>
+                                                <Typography variant="h6">{profileData.rate}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item> 
+                                                <Typography variant="body1">Description:</Typography>
+                                                <Typography variant="h6">{profileData.description}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item> 
+                                                <Typography variant="h6">Tags:</Typography>
+                                                <Typography variant="h6">{profileData.tags && profileData.tags.join(', ')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                </Grid>
+                            </>
+                        ) : (
+                            <>
+                                <Grid item xs={12} md={6}>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Person />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Name:</Typography>
+                                                <Typography variant="h6">
+                                                    {profileData.firstName && profileData.lastName ? profileData.firstName + ' ' + profileData.lastName : ''}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Person />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Gender:</Typography>
+                                                <Typography variant="h6">{profileData.gender}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Email />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="body1">Email:</Typography>
+                                                <Typography variant="h6">{profileData.email}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Typography variant="body1">Description:</Typography>
+                                                <Typography variant="h6">{profileData.description}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                </Grid>
+                            </>
+                        )}
+
+                    </Grid>
                 </Grid>
             </Grid>
-            </div>
-        );
-    };
+        </div>
+    );
+};
 
 export default Profile;

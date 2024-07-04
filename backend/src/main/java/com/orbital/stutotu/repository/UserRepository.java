@@ -34,7 +34,7 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
               "WHERE (:gender IS NULL OR p.gender = :gender) " +
               "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
               "AND (:location IS NULL OR p.location = :location) " +
-              "AND (p.rate <= :rate)")
+              "AND (:rate IS NULL OR p.rate <= :rate)")
        List<Profile> findByFilters(
               @Param("gender") String gender,
               @Param("educationLevel") String educationLevel,
@@ -43,5 +43,11 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
 
     @Query("SELECT p.role FROM Profile p WHERE p.username = :username")
     String findRoleByUsername(@Param("username") String username);
+
+    @Query("SELECT p FROM Profile p JOIN p.tags t WHERE p.role = 'TUTOR' AND t = :tag")
+    List<Profile> findTutorsByTag(@Param("tag") String tag);
+
+    /*@Query("SELECT p FROM Profile p JOIN p.tags t WHERE t = :tag")
+    List<Profile> findByTag(@Param("tag") String tag);*/
 
 }

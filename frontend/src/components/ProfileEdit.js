@@ -47,7 +47,9 @@ const ProfileEdit = () => {
     const [description, setDescription] = useState('');
     const [rate, setRate] = useState(0);
     const [location, setLocation] = useState('');
+    const [newTag, setNewTag] = useState(''); 
     const [errMsg, setErrMsg] = useState('');
+    const [tags, setTags] = useState([]);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -68,6 +70,7 @@ const ProfileEdit = () => {
                 setDescription(profileData.description || '');
                 setRate(profileData.rate || 0);
                 setLocation(profileData.location || '');
+                setTags(profileData.tags || []);
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
@@ -106,7 +109,8 @@ const ProfileEdit = () => {
                     educationLevel: educationLevel,
                     description: description,
                     rate: rate,
-                    location: location
+                    location: location,
+                    tags: tags
                 }),
                 {
                     headers: {'Content-Type': 'application/json',
@@ -118,6 +122,27 @@ const ProfileEdit = () => {
             setErrMsg('Failed to update');
         }
     }
+
+    const addTag = () => {
+        if (newTag.trim() !== '' && !tags.includes(newTag.trim())) {
+            setTags([...tags, newTag.trim()]);
+            setNewTag('');
+        } else {
+            setErrMsg('Tag is empty or already exists.');
+        }
+    };
+
+    const removeTag = (index) => {
+        const updatedTags = [...tags];
+        updatedTags.splice(index, 1);
+        setTags(updatedTags);
+    };
+
+    const confirmRemoveTag = (index) => {
+        if (window.confirm('Are you sure you want to remove this tag?')) {
+            removeTag(index);
+        }
+    };
 
     return (
         <div style={{marginTop: 70}}>
@@ -249,7 +274,7 @@ const ProfileEdit = () => {
 
                     <Grid item xs={12}>
                         <TextField
-                            label="description (max 1000 characters)"
+                            label="Description (max 1000 characters)"
                             variant="outlined"
                             fullWidth
                             value={description}
@@ -259,12 +284,46 @@ const ProfileEdit = () => {
                         />
                     </Grid>
 
+                    <Grid item xs={12}>
+                        <Box mt={2}>
+                            <Typography variant="h6">Tags:</Typography>
+                            <Box display="flex" alignItems="center" mt={1}>
+                                <TextField
+                                    label="Add Tag"
+                                    variant="outlined"
+                                    value={newTag}
+                                    onChange={(e) => setNewTag(e.target.value)}
+                                    fullWidth
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        colour="primary"
+                                        onClick={addTag}
+                                        style={{ marginLeft: '10px' }}
+                                    >
+                                        Add
+                                    </Button>
+                            </Box>
+                            <Box mt={1}>
+                                {tags.map((tag, index) => (
+                                    <Button
+                                        key={index}
+                                        variant="outlined"
+                                        style={{ marginRight: '10px', margineBottom: '10px' }}
+                                        onClick={() => removeTag(index)}
+                                    >
+                                        {tag}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </Box>
+                    </Grid>
+
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <Button type="submit" variant="contained" color="primary">
                             Update
                         </Button>
                     </Grid>
-
                 </Grid>
             </Box>
         </form>

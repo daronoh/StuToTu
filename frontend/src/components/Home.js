@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import useAuth from '../hooks/useAuth';
 import { Grid } from '@mui/material';
-import FriendRequestCard from './Friends/FriendRequestCard';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 import FriendCard from './Friends/FriendCard';
+import FriendRequestCard from './Friends/FriendRequestCard';
 
 const Home = () => {
     const { getToken, getUser } = useAuth();

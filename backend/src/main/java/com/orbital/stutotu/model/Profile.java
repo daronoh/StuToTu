@@ -71,6 +71,9 @@ public class Profile {
     @ManyToMany
     private List<Profile> pendingRequests; 
 
+    @ElementCollection
+    private List<String> tags;
+
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
         this.password = password;

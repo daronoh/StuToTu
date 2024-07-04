@@ -50,6 +50,7 @@ const ProfileFilter = ({ applyFilters }) => {
             location: locationFilter || null,
             rate: rateFilter !== 0 ? rateFilter : 100,
         };
+        console.log('Applying filters:', filters);
         applyFilters(filters);
         setOpen(false);
     };
@@ -69,7 +70,7 @@ const ProfileFilter = ({ applyFilters }) => {
                                     <InputLabel>Subjects</InputLabel>
                                     <Select
                                         label="Subject"
-                                         variant="outlined"
+                                        variant="outlined"
                                         fullWidth
                                         value={subjectsFilter}
                                         onChange={(e) => setSubjectsFilter(e.target.value)}

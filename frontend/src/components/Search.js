@@ -1,4 +1,5 @@
-import { Grid, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { Grid, InputAdornment, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
@@ -7,7 +8,7 @@ import ProfileCard from './ProfileCard';
 import ProfileFilter from './ProfileFilter';
 
 const Search = () => {
-    const { getRole, logout, getToken } = useAuth();
+    const { getRole, getToken } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [filteredProfiles, setFilteredProfiles] = useState([]);
@@ -52,7 +53,6 @@ const Search = () => {
                 location: filters.location,
                 rate: filters.rate
             });
-    
             const response = await axios.get(`/api/profile/filter?${params.toString()}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +60,6 @@ const Search = () => {
                 },
                 withCredentials: true
             });
-    
             setFilteredProfiles(response.data);
             console.log(response.data)
             setLoading(false);
@@ -87,6 +86,13 @@ const Search = () => {
                         placeholder="Search profiles..."
                         sx={{ marginBottom: 3 }}
                         autoComplete='off'
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" sx={{color : '#03a9f4'}} > 
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                     <ProfileFilter applyFilters={applyFilters} />
                 </div>
@@ -94,7 +100,7 @@ const Search = () => {
                 <div style={{ marginTop: '4rem' }}>
                     {loading && <p>Loading...</p>}
                     {error && <p>Error: {error}</p>}
-                    {!loading && profilesToDisplay.length === 0 && (
+                    {!loading && profilesToDisplay.length === 0 && searchQuery !== '' && (
                         <p>Profile not found.</p>
                     )}
                     {profilesToDisplay.length > 0 && (
