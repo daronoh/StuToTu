@@ -1,7 +1,7 @@
-import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School } from '@mui/icons-material';
-import { Box, Button, Chip, CircularProgress, Divider, Grid, Typography } from '@mui/material';
+import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School, TagFaces } from '@mui/icons-material';
+import { Box, Button, CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
@@ -176,24 +176,35 @@ const Profile = () => {
                                     </Box>
                                     <Box mb={2}>
                                         <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <TagFaces />
+                                            </Grid>
+                                            <Grid item> 
+                                                <Typography variant="body1">Personality Tags:</Typography>
+                                                <Typography variant="h6">
+                                                    {profileData.tags
+                                                        .filter(tag => tag.inProfile)
+                                                        .map((tag, index, array) => (
+                                                            <Fragment key={tag.name}>
+                                                                {tag.name}
+                                                                {index !== array.length - 1 && ', '}
+                                                            </Fragment>
+                                                        ))}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Box mb={2}>
+                                        <Grid container spacing={2} alignItems="center">
                                             <Grid item> 
                                                 <Typography variant="body1">Description:</Typography>
                                                 <Typography variant="h6">{profileData.description}</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider />
-                                    </Box>
-                                    <Box mb={2}>
-                                        <Grid container spacing={2} alignItems="center">
-                                            <Grid item> 
-                                                <Typography variant="body1">Tags:</Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                {profileData.tags.filter(tag => tag.inProfile).map(tag => (
-                                                    <Typography key={tag.name} variant="h6">{tag.name} </Typography>
-                                                ))}
-                                            </Grid>
-                                        </Grid>
                                     </Box>
                                 </Grid>
                             </>
@@ -252,20 +263,6 @@ const Profile = () => {
                                 </Grid>
                             </>
                         )}
-                        <Grid item xs={12}>
-                            <Box mt={2}>
-                                <Typography variant="h6">Tags:</Typography>
-                                <Box display="flex" alignItems="center" mt={1} flexWrap="wrap">
-                                    {profileData.tags && profileData.tags.map((tag, index) => (
-                                        <Chip label={tag} variant="outlined" color="primary"
-                                            key={index}
-                                            style={{ margin: '5px' }}
-                                        />
-                                    ))}
-                                    </Box>
-                                </Box>
-                            </Grid>
-
                     </Grid>
                 </Grid>
             </Grid>
