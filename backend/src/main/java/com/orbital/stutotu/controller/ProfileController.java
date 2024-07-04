@@ -106,43 +106,35 @@ public class ProfileController {
                 gender, educationLevel, location, rate);
         return ResponseEntity.ok(filteredProfiles);
     }
-
 }
 
 /* 
 
     @PostMapping("/addTag")
-    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag, @RequestParam String type) {
+    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag) {
         Optional<Profile> profileOpt = userRepository.findById(profileId);
         if (profileOpt.isPresent()) {
             Profile profile = profileOpt.get();
-
-            profile.getTags().add(tag);
+            profile.addTag(tag);
             userRepository.save(profile);
-
-            tagRepository.save(new Tag());
-
             return ResponseEntity.ok("Tag added successfully");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/validateTag")
-    public ResponseEntity<?> validateTag(@RequestParam Long tagId, @RequestParam boolean validated) {
-        Optional<Tag> tagOpt = tagRepository.findById(tagId);
-            if (tagOpt.isPresent()) {
-                Tag tag = tagOpt.get();
-                
-                // Set the validation status of the tag
-                tag.setValidated(validated);
-                tagRepository.save(tag);
-                
-                return ResponseEntity.ok("Tag validation status updated");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+    @PostMapping("/removeTag")
+    public ResponseEntity<?> removeTag(@RequestParam Long profileId, @RequestParam String tag) {
+        Optional<Profile> profileOpt = userRepository.findById(profileId);
+        if (profileOpt.isPresent()) {
+            Profile profile = profileOpt.get();
+            profile.removeTag(tag); // Use the removeTag method from Profile class
+            userRepository.save(profile);
+            return ResponseEntity.ok("Tag removed successfully");
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    }
 
 }
 
