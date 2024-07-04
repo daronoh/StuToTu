@@ -49,7 +49,6 @@ const ProfileEdit = () => {
     const [location, setLocation] = useState('');
     const [newTags, setNewTags] = useState([]); 
     const [errMsg, setErrMsg] = useState('');
-    const [profileTags, setProfileTags] = useState([]);
     const [tagOptions, setTagOptions] = useState([]);
 
     useEffect(() => {
@@ -71,8 +70,9 @@ const ProfileEdit = () => {
                 setDescription(profileData.description || '');
                 setRate(profileData.rate || 0);
                 setLocation(profileData.location || '');
-                setProfileTags((profileData.tags || []).filter(tag => tag.inProfile));
+                setNewTags((profileData.tags || []).filter(tag => tag.inProfile).map(tag => tag.name));
                 setTagOptions((profileData.tags || []).filter(tag => tag.validated));
+
             } catch (error) {
                 if (error.response?.status === 401) {
                     logout();
@@ -271,6 +271,8 @@ const ProfileEdit = () => {
                             </FormControl>
                         </Box>
                     </Grid>
+                    </>
+                )}
 
                     <Grid item xs={12}>
                         <TextField
@@ -283,10 +285,6 @@ const ProfileEdit = () => {
                             inputProps={{ maxLength: 1000 }}
                         />
                     </Grid>
-
-                    
-                    </>
-                )}
 
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <Button type="submit" variant="contained" color="primary">

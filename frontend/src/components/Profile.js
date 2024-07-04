@@ -169,7 +169,7 @@ const Profile = () => {
                                             </Grid>
                                             <Grid item>
                                                 <Typography variant="body1">Rate:</Typography>
-                                                <Typography variant="h6">{profileData.rate}</Typography>
+                                                <Typography variant="h6">${profileData.rate}</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider />
@@ -182,14 +182,18 @@ const Profile = () => {
                                             <Grid item> 
                                                 <Typography variant="body1">Personality Tags:</Typography>
                                                 <Typography variant="h6">
-                                                    {profileData.tags
-                                                        .filter(tag => tag.inProfile)
-                                                        .map((tag, index, array) => (
-                                                            <Fragment key={tag.name}>
-                                                                {tag.name}
-                                                                {index !== array.length - 1 && ', '}
-                                                            </Fragment>
-                                                        ))}
+                                                    { profileData.tags.filter(tag => tag.inProfile).length > 0 ? (
+                                                        profileData.tags
+                                                            .filter(tag => tag.inProfile)
+                                                            .map((tag, index, array) => (
+                                                                <Fragment key={tag.name}>
+                                                                    {tag.name}
+                                                                    {index !== array.length - 1 && ', '}
+                                                                </Fragment>
+                                                            ))
+                                                    ) : (
+                                                        "No tags"
+                                                    )}
                                                 </Typography>
                                             </Grid>
                                         </Grid>
@@ -201,7 +205,7 @@ const Profile = () => {
                                         <Grid container spacing={2} alignItems="center">
                                             <Grid item> 
                                                 <Typography variant="body1">Description:</Typography>
-                                                <Typography variant="h6">{profileData.description}</Typography>
+                                                <Typography variant="h6">{profileData.description || 'No Description'}</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider />
@@ -255,7 +259,7 @@ const Profile = () => {
                                         <Grid container spacing={2} alignItems="center">
                                             <Grid item>
                                                 <Typography variant="body1">Description:</Typography>
-                                                <Typography variant="h6">{profileData.description}</Typography>
+                                                <Typography variant="h6">{profileData.description || 'No Description'}</Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider />
