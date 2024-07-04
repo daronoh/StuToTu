@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orbital.stutotu.exception.ResourceNotFoundException;
 import com.orbital.stutotu.model.Profile;
-import com.orbital.stutotu.model.Tag;
-import com.orbital.stutotu.repository.TagRepository;
 import com.orbital.stutotu.repository.UserRepository;
 import com.orbital.stutotu.service.MyUserDetailsService;
 
@@ -39,8 +37,6 @@ public class ProfileController {
     @Autowired
     private MyUserDetailsService userService;
 
-    @Autowired
-    private TagRepository tagRepository;
 
     @GetMapping("/search")
     public ResponseEntity<List<Profile>> searchTutorProfiles(@RequestParam String query) {
@@ -82,6 +78,7 @@ public class ProfileController {
             profile.setEducationLevel(profileDetails.getEducationLevel());
             profile.setLocation(profileDetails.getLocation());
             profile.setRate(profileDetails.getRate());
+            profile.setTags(profileDetails.getTags());
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);
@@ -111,64 +108,29 @@ public class ProfileController {
 }
 
     @PostMapping("/addTag")
-    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag, @RequestParam String type) {
+    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag) {
         Optional<Profile> profileOpt = userRepository.findById(profileId);
         if (profileOpt.isPresent()) {
             Profile profile = profileOpt.get();
-
-            profile.getTags().add(tag);
+            profile.addTag(tag);
             userRepository.save(profile);
-
-            tagRepository.save(new Tag());
-
             return ResponseEntity.ok("Tag added successfully");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/validateTag")
-    public ResponseEntity<?> validateTag(@RequestParam Long tagId, @RequestParam boolean validated) {
-        Optional<Tag> tagOpt = tagRepository.findById(tagId);
-            if (tagOpt.isPresent()) {
-                Tag tag = tagOpt.get();
-                
-                // Set the validation status of the tag
-                tag.setValidated(validated);
-                tagRepository.save(tag);
-                
-                return ResponseEntity.ok("Tag validation status updated");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+    @PostMapping("/removeTag")
+    public ResponseEntity<?> removeTag(@RequestParam Long profileId, @RequestParam String tag) {
+        Optional<Profile> profileOpt = userRepository.findById(profileId);
+        if (profileOpt.isPresent()) {
+            Profile profile = profileOpt.get();
+            profile.removeTag(tag); // Use the removeTag method from Profile class
+            userRepository.save(profile);
+            return ResponseEntity.ok("Tag removed successfully");
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    }
 
 }
-
-
-/*import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import java.math.BigDecimal;
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/profile")
-public class ProfileController {
-
-    private final UserRepository userRepository;
-
-    public ProfileController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping("/filter")
-    public List<Profile> filterProfiles(
-            @RequestParam(required = false) List<String> subjects,
-            @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String educationLevel,
-            @RequestParam(required = false) String location,
-            @RequestParam(required = false) BigDecimal rate) {
-        return userRepository.findByFilters(subjects, gender, educationLevel, location, rate);
-    }
-}*/

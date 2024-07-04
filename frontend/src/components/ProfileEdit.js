@@ -310,7 +310,7 @@ const ProfileEdit = () => {
                                         key={index}
                                         variant="outlined"
                                         style={{ marginRight: '10px', margineBottom: '10px' }}
-                                        onClick={() => removeTag(index)}
+                                        onClick={() => confirmRemoveTag(index)}
                                     >
                                         {tag}
                                     </Button>

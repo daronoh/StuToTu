@@ -85,6 +85,7 @@ public class Profile {
         this.role = role;
         this.friends = new ArrayList<>();
         this.pendingRequests = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
@@ -102,6 +103,22 @@ public class Profile {
         this.role = role;
         this.friends = new ArrayList<>();
         this.pendingRequests = new ArrayList<>();
+        this.tags = new ArrayList<>();
+    }
+
+    // Method to add a tag to the profile
+    public void addTag(String tag) {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
+        this.tags.add(tag);
+    }
+
+    // Method to remove a tag from the profile
+    public void removeTag(String tag) {
+        if (this.tags != null) {
+            this.tags.remove(tag);
+        }
     }
 
     // Factory methods for creating specific roles

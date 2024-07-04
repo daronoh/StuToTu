@@ -1,5 +1,5 @@
 import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Chip, CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -183,14 +183,6 @@ const Profile = () => {
                                         </Grid>
                                         <Divider />
                                     </Box>
-                                    <Box mb={2}>
-                                        <Grid container spacing={2} alignItems="center">
-                                            <Grid item> 
-                                                <Typography variant="h6">Tags:</Typography>
-                                                <Typography variant="h6">{profileData.tags && profileData.tags.join(', ')}</Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
                                 </Grid>
                             </>
                         ) : (
@@ -248,6 +240,19 @@ const Profile = () => {
                                 </Grid>
                             </>
                         )}
+                        <Grid item xs={12}>
+                            <Box mt={2}>
+                                <Typography variant="h6">Tags:</Typography>
+                                <Box display="flex" alignItems="center" mt={1} flexWrap="wrap">
+                                    {profileData.tags && profileData.tags.map((tag, index) => (
+                                        <Chip label={tag} variant="outlined" color="primary"
+                                            key={index}
+                                            style={{ margin: '5px' }}
+                                        />
+                                    ))}
+                                    </Box>
+                                </Box>
+                            </Grid>
 
                     </Grid>
                 </Grid>
