@@ -74,15 +74,20 @@ public class ProfileController {
             profile.setEducationLevel(profileDetails.getEducationLevel());
             profile.setLocation(profileDetails.getLocation());
             profile.setRate(profileDetails.getRate());
-            List<Tag> profileTags = profile.getTags();
-            for (Tag t : profileTags) {
-                if (profileDetails.getTags().contains(t.getName())) {
+
+            List<String> profileTags = profileDetails.getTags();
+            for (Tag t : profile.getTags()) {
+                if (profileTags.contains(t.getName())) {
                     t.addToProfile();
                 } else {
                     t.removeFromProfile();
                 }
             }
 
+            // Add "other" tags
+            for (String tagName : profileTags) {
+                profile.addTag(tagName);
+            }
 
             // Save updated profile
             Profile updatedProfile = userRepository.save(profile);
@@ -137,6 +142,18 @@ public class ProfileController {
     }
 
 }
+
+
+ // Remove tags that are no longer in the profileTags list
+            List<Tag> tagsToRemove = new ArrayList<>();
+            for (Tag tag : profile.getTags()) {
+                if (!profileTags.contains(tag.getName())) {
+                    tagsToRemove.add(tag);
+                }
+            }
+            for (Tag tag : tagsToRemove) {
+                profile.removeTag(tag.getName());
+            }
 
 */
 

@@ -50,6 +50,7 @@ const ProfileEdit = () => {
     const [newTags, setNewTags] = useState([]); 
     const [errMsg, setErrMsg] = useState('');
     const [tagOptions, setTagOptions] = useState([]);
+    const [customTag, setCustomTag] = useState('');
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -91,6 +92,18 @@ const ProfileEdit = () => {
         setIsValidEmail(value.includes('@')); // Check if "@" is included in the email
     };
 
+    const handleTagsChange = (e) => {
+        const { value } = e.target;
+        if (!value.includes('Other')) {
+            setCustomTag('');
+        }
+        setNewTags(value);
+    };
+
+    const handleCustomTagChange = (e) => {
+        setCustomTag(e.target.value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -98,6 +111,9 @@ const ProfileEdit = () => {
             setErrMsg('Please enter a valid email address.');
             return;
         }
+
+        // include custom tag in newTags if it exists and is not empty
+        const updatedTags = customTag ? [...newTags.filter(tag => tag !== 'Other'), customTag] : newTags;
 
         try {
             const token = getToken(); 
@@ -112,7 +128,7 @@ const ProfileEdit = () => {
                     description: description,
                     rate: rate,
                     location: location,
-                    tags: newTags
+                    tags: updatedTags
                 }),
                 {
                     headers: {'Content-Type': 'application/json',
@@ -252,27 +268,37 @@ const ProfileEdit = () => {
                     </Grid>
 
                     <Grid item xs={6}>
-                        <Box>
-                            <FormControl fullWidth>
-                                <InputLabel>Tags</InputLabel>
-                                <Select
-                                    multiple
-                                    value={newTags}
-                                    onChange={(e) => setNewTags(e.target.value)}
-                                    input={<OutlinedInput label="Tags" />}
-                                    MenuProps={MenuProps}
-                                >
-                                    {tagOptions.map((tag) => (
-                                        <MenuItem key={tag.name} value={tag.name}>
-                                            {tag.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
+                        <FormControl fullWidth>
+                            <InputLabel>Tags</InputLabel>
+                            <Select
+                                multiple
+                                value={newTags}
+                                onChange={handleTagsChange}
+                                input={<OutlinedInput label="Tags" />}
+                                MenuProps={MenuProps}
+                            >
+                                {tagOptions.map((tag) => (
+                                    <MenuItem key={tag.name} value={tag.name}>
+                                        {tag.name}
+                                    </MenuItem>
+                                ))}
+                                <MenuItem value="Other">
+                                    Other
+                                </MenuItem>
+                            </Select>
+                            {newTags.includes("Other") && (
+                                <TextField
+                                    label="Custom Tag"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={customTag}
+                                    onChange={handleCustomTagChange}
+                                />
+                            )} 
+                        </FormControl>
                     </Grid>
-                    </>
-                )}
+                </>
+            )}
 
                     <Grid item xs={12}>
                         <TextField

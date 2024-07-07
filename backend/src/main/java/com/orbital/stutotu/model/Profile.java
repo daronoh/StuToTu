@@ -123,4 +123,41 @@ public class Profile {
         List<String> subjects, String educationLevel, String location, int rate) {
         return new Profile(username, password, firstName, lastName, email, gender, subjects, educationLevel, location, rate, "TUTOR");
     }
+
+    // validating 'others' option
+    public boolean canAddTag(String tagName) {
+        return tags.stream().noneMatch(t -> t.getName().equalsIgnoreCase(tagName) && !t.isValidated());
+    }
+
+    // addTag for 'others' option
+    public void addTag(String tagName) {
+        if (canAddTag(tagName)) {
+            Tag tag = tags.stream()
+                        .filter(t -> t.getName()
+                        .equalsIgnoreCase(tagName))
+                        .findFirst()
+                        .orElse(new Tag(tagName));
+
+            tag.addToProfile();
+            if (!tags.contains(tag)) {
+                tags.add(tag);
+            }
+        }
+    }
 }
+
+
+/*
+ * // remove 'other' tags from profile
+    public void removeTag(String tagName) {
+        Tag tagToRemove = tags.stream()
+                              .filter(t -> t.getName().equalsIgnoreCase(tagName))
+                              .findFirst()
+                              .orElse(null);
+
+        if (tagToRemove != null) {
+            tagToRemove.removeFromProfile();
+            tags.remove(tagToRemove);
+        }
+    }
+ */
