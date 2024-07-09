@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
     Profile findByUsername(String username);
     List<Profile> findByUsernameContainingIgnoreCase(String username);
 
-    @Query("SELECT DISTINCT p FROM Profile p LEFT JOIN p.subjects s " +
+    @Query("SELECT DISTINCT p FROM Profile p LEFT JOIN p.subjects s " + "LEFT JOIN p.tags t " +
            "WHERE p.role = 'TUTOR' AND (" +
            "LOWER(p.username) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
@@ -26,6 +26,7 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.educationLevel) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.location) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(t.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Profile> searchTutorProfile(@Param("query") String query);
 
