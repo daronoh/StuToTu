@@ -1,11 +1,12 @@
 import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School, TagFaces } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 import AddAsFriendButton from './Friends/AddAsFriendButton';
+import ReviewCard from './review/reviewCard';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
@@ -269,6 +270,26 @@ const Profile = () => {
                         )}
                     </Grid>
                 </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={12} >
+                    <Typography variant="h6" align="center">Reviews: </Typography>
+                </Grid>
+                {profileData.reviews.length > 0 ? (
+                    profileData.reviews.map((result, index) => (
+                        <Grid item xs={12} key={index}>
+                            <ReviewCard review={result} />
+                        </Grid>
+                    ))
+                ) : (
+                    <Grid item xs={12}>
+                        <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <Typography variant="h6" align="center">
+                                no reviews
+                            </Typography>
+                        </Card>
+                    </Grid>
+                )}
             </Grid>
         </div>
     );

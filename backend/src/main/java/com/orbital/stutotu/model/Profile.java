@@ -74,6 +74,15 @@ public class Profile {
     @ElementCollection
     private List<Tag> tags;
 
+    @ElementCollection
+    private List<Review> reviews;
+
+    private int numOfReviews;
+
+    private int totalRating;
+
+    private double avgRating; // avg = total / num
+
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
         this.password = password;
@@ -85,6 +94,10 @@ public class Profile {
         this.role = role;
         this.friends = new ArrayList<>();
         this.pendingRequests = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+        this.numOfReviews = 0;
+        this.totalRating = 0;
+        this.avgRating = 0;
     }
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
@@ -112,6 +125,10 @@ public class Profile {
         strings.add(new Tag("Visual"));
         strings.add(new Tag("Practical"));
         this.tags = strings;
+        this.reviews = new ArrayList<>();
+        this.numOfReviews = 0;
+        this.totalRating = 0;
+        this.avgRating = 0;
     }
 
     // Factory methods for creating specific roles
@@ -143,6 +160,13 @@ public class Profile {
                 tags.add(tag);
             }
         }
+    }
+
+    public void leaveReview(Review review) {
+        this.reviews.add(review);
+        this.numOfReviews++;
+        this.totalRating += review.getRating();
+        this.avgRating = this.totalRating / this.numOfReviews;
     }
 }
 
