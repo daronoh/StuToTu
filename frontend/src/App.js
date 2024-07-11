@@ -13,6 +13,7 @@ import Unauthorized from './components/Unauthorized';
 import Home from './components/Home';
 import useAuth from './hooks/useAuth';
 import ChatRoom from './components/chat/ChatRoom';
+import LeaveReview from './components/review/LeaveReview';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
         <Route path = "Profile/Edit" element={<ProfileEdit />} />
+        <Route path = "LeaveReview" element={<LeaveReview />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

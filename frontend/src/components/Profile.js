@@ -273,7 +273,7 @@ const Profile = () => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} >
-                    <Typography variant="h6" align="center">Reviews: </Typography>
+                    <Typography variant="h6" align="center">reviews: {profileData.avgRating}/5.0</Typography>
                 </Grid>
                 {profileData.reviews.length > 0 ? (
                     profileData.reviews.map((result, index) => (
