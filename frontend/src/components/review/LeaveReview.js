@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Card, Grid, Rating, TextField, Typography } from '@mui/material';
 
-const LeaveReview = ({ReviewForProfile}) => {
+const LeaveReview = ({ReviewForProfile}) => { // the ReviewForProfile needs to keep track of the other user's profile cause we can get our own username but not the person we are leaving the review for otherwise, but i dont know how to pass the profile into this component when we're routing
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const [submitted, setSubmitted] = useState(false);

@@ -162,6 +162,8 @@ public class Profile {
         }
     }
 
+
+    //this essentially we use this to leave reviews as it will update all the info we need, i want to display the avg rating on the profile so we need these.
     public void leaveReview(Review review) {
         this.reviews.add(review);
         this.numOfReviews++;

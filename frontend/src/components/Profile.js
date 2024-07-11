@@ -292,6 +292,7 @@ const Profile = () => {
                 )}
             </Grid>
         </div>
+        //the grid above will go through the profiledata and look at the list of reviews, and display them. similar to how our search shows the profiles.
     );
 };
 
