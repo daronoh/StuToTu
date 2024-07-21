@@ -1,5 +1,5 @@
-import { AttachMoney, Email, LocalLibrary, LocationOn, Person, School, TagFaces } from '@mui/icons-material';
-import { Box, Button, Card, CircularProgress, Divider, Grid, Typography } from '@mui/material';
+import { AttachMoney, Close, Done, Email, LocalLibrary, LocationOn, Person, School, TagFaces } from '@mui/icons-material';
+import { Box, Button, Card, Chip, CircularProgress, Divider, Grid, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -175,34 +175,20 @@ const Profile = () => {
                                         </Grid>
                                         <Divider />
                                     </Box>
-                                    <Box mb={2}>
-                                        <Grid container spacing={2} alignItems="center">
-                                            <Grid item>
-                                                <TagFaces />
-                                            </Grid>
-                                            <Grid item> 
-                                                <Typography variant="body1">Personality Tags:</Typography>
-                                                <Typography variant="h6">
-                                                    { profileData.tags.filter(tag => tag.inProfile).length > 0 ? (
-                                                        profileData.tags
-                                                            .filter(tag => tag.inProfile)
-                                                            .map((tag, index, array) => (
-                                                                <Fragment key={tag.name}>
-                                                                    {tag.name}
-                                                                    {index !== array.length - 1 && ', '}
-                                                                </Fragment>
-                                                            ))
-                                                    ) : (
-                                                        "No tags"
-                                                    )}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                        <Divider />
-                                    </Box>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Box mb={2}>
+                                        <Stack direction="row" sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                                        { profileData.tags.length > 0 ? (
+                                                            profileData.tags
+                                                                .filter(tag => tag.inProfile)
+                                                                .map((tag) => (
+                                                                    <Chip label={tag.name} color={tag.validated ? "success" : "error"} icon={tag.validated ? <Done/> : <Close/>} sx={{marginTop: '5px'}}/>
+                                                                ))
+                                                        ) : (
+                                                            <Typography variant="body1">No tags</Typography>
+                                                        )}
+                                        </Stack>
                                         <Grid container spacing={2} alignItems="center">
                                             <Grid item> 
                                                 <Typography variant="body1">Description:</Typography>

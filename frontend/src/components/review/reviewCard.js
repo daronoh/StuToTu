@@ -3,9 +3,9 @@ import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
 import React from 'react';
 
 const ReviewCard = ({ review }) => {
+    console.log(review);
     return (
         <Card className="profilecardcontainer">
-            <CardActionArea>
                 <MDBContainer>
                     <Box mt={2} mb={2}>
                         <MDBRow>
@@ -28,7 +28,6 @@ const ReviewCard = ({ review }) => {
                         </MDBContainer>
                     </Box>
                 </MDBContainer>
-            </CardActionArea>
         </Card>
     );
 };

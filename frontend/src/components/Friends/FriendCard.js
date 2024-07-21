@@ -52,7 +52,7 @@ const FriendCard = ({ profile }) => {
               variant="contained"
               color="primary"
               component={Link}
-              to={`/ReviewForm/${profile.username}`}
+              to={`/ReviewForm`}
               state={{ ReviewForProfile: profile }}
               style={{ marginRight: '10px', marginTop: '10px'}}
             >

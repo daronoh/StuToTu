@@ -1,9 +1,8 @@
 package com.orbital.stutotu.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.List;
+
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +10,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     private String reviewFor;
     private String reviewFrom;
     private String content;
     private int rating;
+    private List<String> tags;
 }

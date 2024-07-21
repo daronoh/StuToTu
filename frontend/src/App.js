@@ -35,7 +35,7 @@ function App() {
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
         <Route path = "Profile/Edit" element={<ProfileEdit />} />
-        <Route path = "ReviewForm/:username" element={<ReviewForm />} />
+        <Route path = "ReviewForm" element={<ReviewForm />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

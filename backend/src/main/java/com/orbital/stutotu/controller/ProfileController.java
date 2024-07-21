@@ -116,10 +116,10 @@ public class ProfileController {
         return ResponseEntity.ok(filteredProfiles);
     }
 
-    @PostMapping("/{username}/review")
-    public ResponseEntity<Profile> addReview(@PathVariable String username, @Valid @RequestBody Review review) {
+    @PostMapping("/review")
+    public ResponseEntity<Profile> leaveReview(@RequestBody Review review) {
         try {
-            Profile reviewFor = userRepository.findByUsername(username);
+            Profile reviewFor = userRepository.findByUsername(review.getReviewFor());
             if (reviewFor == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
@@ -134,48 +134,4 @@ public class ProfileController {
         }
     }
 }
-
-/* 
-
-    @PostMapping("/addTag")
-    public ResponseEntity<?> addTag(@RequestParam Long profileId, @RequestParam String tag) {
-        Optional<Profile> profileOpt = userRepository.findById(profileId);
-        if (profileOpt.isPresent()) {
-            Profile profile = profileOpt.get();
-            profile.addTag(tag);
-            userRepository.save(profile);
-            return ResponseEntity.ok("Tag added successfully");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/removeTag")
-    public ResponseEntity<?> removeTag(@RequestParam Long profileId, @RequestParam String tag) {
-        Optional<Profile> profileOpt = userRepository.findById(profileId);
-        if (profileOpt.isPresent()) {
-            Profile profile = profileOpt.get();
-            profile.removeTag(tag); // Use the removeTag method from Profile class
-            userRepository.save(profile);
-            return ResponseEntity.ok("Tag removed successfully");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-}
-
-
- // Remove tags that are no longer in the profileTags list
-            List<Tag> tagsToRemove = new ArrayList<>();
-            for (Tag tag : profile.getTags()) {
-                if (!profileTags.contains(tag.getName())) {
-                    tagsToRemove.add(tag);
-                }
-            }
-            for (Tag tag : tagsToRemove) {
-                profile.removeTag(tag.getName());
-            }
-
-*/
 

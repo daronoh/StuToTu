@@ -171,6 +171,17 @@ public class Profile {
         this.numOfReviews++;
         this.totalRating += review.getRating();
         this.avgRating = (this.totalRating * 1.0 / this.numOfReviews);
+        
+        tags.stream()
+            .filter(tag -> tag.getInProfile())  // Filter tags that are in profile
+            .forEach(tag -> {
+                String tagName = tag.getName();
+                if (review.getTags().contains(tagName)) {
+                    tag.reviewed();  // Call reviewed() if tag name is in review's tags
+                } else {
+                    tag.complain();  // Call complain() otherwise
+                }
+            });
     }
 }
 
