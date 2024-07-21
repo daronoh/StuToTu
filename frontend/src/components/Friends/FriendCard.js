@@ -1,8 +1,8 @@
 import { Avatar, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import useAuth from "../../hooks/useAuth";
-import defaultProfilePic from '../../assets/default-profile-pic.png';
-import axios from "../../api/axios";
 import { Link } from "react-router-dom";
+import axios from "../../api/axios";
+import defaultProfilePic from '../../assets/default-profile-pic.png';
+import useAuth from "../../hooks/useAuth";
 
 const FriendCard = ({ profile }) => {
     const { getToken, getUser } = useAuth();
@@ -19,7 +19,7 @@ const FriendCard = ({ profile }) => {
         } catch (error) {
             console.log('Error removing friend: ', error);
         }
-    }
+      }
   
     return (
       <Card style={{ marginBottom: '10px' }}>
@@ -49,12 +49,22 @@ const FriendCard = ({ profile }) => {
             </Grid>
             </CardActionArea>
             <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleRemoveFriend}
-                        style={{ marginTop: '10px' }}
-                    >
-                        Remove Friend
+              variant="contained"
+              color="primary"
+              component={Link}
+              to={`/ReviewForm/${profile.username}`}
+              state={{ ReviewForProfile: profile }}
+              style={{ marginRight: '10px', marginTop: '10px'}}
+            >
+              Review
+            </Button>
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleRemoveFriend}
+                style={{ marginTop: '10px' }}
+            >
+                Remove Friend
             </Button>
           </CardContent>
         

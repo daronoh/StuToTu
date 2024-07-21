@@ -116,17 +116,19 @@ public class ProfileController {
         return ResponseEntity.ok(filteredProfiles);
     }
 
-    @PostMapping("/leaveReview")
-    public ResponseEntity<?> leaveReview(@RequestBody Review review) {
+    @PostMapping("/{username}/review")
+    public ResponseEntity<Profile> addReview(@PathVariable String username, @Valid @RequestBody Review review) {
         try {
-            Profile reviewFor = userRepository.findByUsername(review.getReviewFor());
+            Profile reviewFor = userRepository.findByUsername(username);
             if (reviewFor == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
             reviewFor.leaveReview(review);
-            return ResponseEntity.ok().build();
+            Profile updatedProfile = userRepository.save(reviewFor);
+
+            return ResponseEntity.ok(updatedProfile);
         } catch (ResponseStatusException e) {
-            throw e; 
+            throw e;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
         }

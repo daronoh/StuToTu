@@ -1,37 +1,36 @@
-import { CardActionArea } from '@mui/material';
-import Card from '@mui/material/Card';
+import { Box, Card, CardActionArea, Typography } from '@mui/material';
 import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
-import * as React from 'react';
+import React from 'react';
 
 const ReviewCard = ({ review }) => {
     return (
         <Card className="profilecardcontainer">
-          <MDBContainer>
-            <br />
-            <br />
-            <MDBRow>
-              <MDBCol>
-                <div className="container">
-                  <h2>Review From: {review.reviewFrom}</h2>
-                  <h2>Rating: {review.rating}/5.0</h2>
-                </div>
-
-                <hr />
-
+            <CardActionArea>
                 <MDBContainer>
-                  <MDBRow>
-                    <MDBCol>
-                        {review.content || 'no content'}
-                    </MDBCol>
-                  </MDBRow>
+                    <Box mt={2} mb={2}>
+                        <MDBRow>
+                            <MDBCol>
+                                <Typography variant="h6">Review From: {review.reviewFrom}</Typography>
+                                <Typography variant="h6">Rating: {review.rating}/5.0</Typography>
+                            </MDBCol>
+                        </MDBRow>
+
+                        <hr />
+
+                        <MDBContainer>
+                            <MDBRow>
+                                <MDBCol>
+                                    <Typography variant="body1">
+                                        {review.content || 'No content'}
+                                    </Typography>
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBContainer>
+                    </Box>
                 </MDBContainer>
-                <br />
-                <br />
-              </MDBCol>
-            </MDBRow>
-          </MDBContainer>
-    </Card>
+            </CardActionArea>
+        </Card>
     );
-  }
-  
-  export default ReviewCard;
+};
+
+export default ReviewCard;

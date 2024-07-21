@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfilePic from '../assets/default-profile-pic.png';
 import useAuth from '../hooks/useAuth';
 import AddAsFriendButton from './Friends/AddAsFriendButton';
-import ReviewCard from './review/reviewCard';
+import ReviewCard from './review/ReviewCard';
 
 const Profile = () => {
     const { username } = useParams(); // Access the username parameter from the route
@@ -275,7 +275,7 @@ const Profile = () => {
                 <Grid item xs={12} >
                     <Typography variant="h6" align="center">reviews: {profileData.avgRating}/5.0</Typography>
                 </Grid>
-                {profileData.reviews.length > 0 ? (
+                {profileData.reviews && profileData.reviews.length > 0 ? (
                     profileData.reviews.map((result, index) => (
                         <Grid item xs={12} key={index}>
                             <ReviewCard review={result} />
@@ -285,7 +285,7 @@ const Profile = () => {
                     <Grid item xs={12}>
                         <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                             <Typography variant="h6" align="center">
-                                no reviews
+                                No Reviews
                             </Typography>
                         </Card>
                     </Grid>

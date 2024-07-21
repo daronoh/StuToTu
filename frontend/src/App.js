@@ -1,19 +1,19 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Search from './components/Search';
+import Home from './components/Home';
 import Layout from './components/Layout';
 import Login from "./components/Login";
 import Missing from './components/Missing';
 import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
-import RegisterTutor from './components/RegisterTutor';
 import RegisterStudent from './components/RegisterStudent';
+import RegisterTutor from './components/RegisterTutor';
 import RequireAuth from './components/RequireAuth';
+import Search from './components/Search';
 import Unauthorized from './components/Unauthorized';
-import Home from './components/Home';
-import useAuth from './hooks/useAuth';
 import ChatRoom from './components/chat/ChatRoom';
-import LeaveReview from './components/review/LeaveReview';
+import ReviewForm from './components/review/ReviewForm';
+import useAuth from './hooks/useAuth';
 
 function App() {
 
@@ -35,7 +35,7 @@ function App() {
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />
         <Route path = "Profile/Edit" element={<ProfileEdit />} />
-        <Route path = "LeaveReview" element={<LeaveReview />} />
+        <Route path = "ReviewForm/:username" element={<ReviewForm />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

@@ -77,11 +77,14 @@ public class Profile {
     @ElementCollection
     private List<Review> reviews;
 
-    private int numOfReviews;
+    @Column
+    private Integer numOfReviews;
 
-    private int totalRating;
+    @Column
+    private Integer totalRating;
 
-    private double avgRating; // avg = total / num
+    @Column
+    private Double avgRating; // avg = total / num
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
@@ -97,7 +100,7 @@ public class Profile {
         this.reviews = new ArrayList<>();
         this.numOfReviews = 0;
         this.totalRating = 0;
-        this.avgRating = 0;
+        this.avgRating = 0.0;
     }
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
@@ -128,7 +131,7 @@ public class Profile {
         this.reviews = new ArrayList<>();
         this.numOfReviews = 0;
         this.totalRating = 0;
-        this.avgRating = 0;
+        this.avgRating = 0.0;
     }
 
     // Factory methods for creating specific roles
@@ -162,13 +165,12 @@ public class Profile {
         }
     }
 
-
     //this essentially we use this to leave reviews as it will update all the info we need, i want to display the avg rating on the profile so we need these.
     public void leaveReview(Review review) {
         this.reviews.add(review);
         this.numOfReviews++;
         this.totalRating += review.getRating();
-        this.avgRating = this.totalRating / this.numOfReviews;
+        this.avgRating = (this.totalRating * 1.0 / this.numOfReviews);
     }
 }
 

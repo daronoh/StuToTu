@@ -1,8 +1,8 @@
 import { Avatar, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import axios from "../../api/axios";
-import useAuth from "../../hooks/useAuth";
-import defaultProfilePic from '../../assets/default-profile-pic.png';
 import { Link } from "react-router-dom";
+import axios from "../../api/axios";
+import defaultProfilePic from '../../assets/default-profile-pic.png';
+import useAuth from "../../hooks/useAuth";
 
 const FriendRequestCard = ({profile}) => {
     const { getUser, getToken, getRole } = useAuth();
