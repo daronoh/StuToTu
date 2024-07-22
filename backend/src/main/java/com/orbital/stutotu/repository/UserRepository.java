@@ -26,21 +26,22 @@ public interface UserRepository extends JpaRepository<Profile, Long> {
            "LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.educationLevel) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(p.location) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(t.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "(LOWER(t.name) LIKE LOWER(CONCAT('%', :query, '%')) AND t.inProfile = true AND t.validated = true) OR " +
            "LOWER(s) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Profile> searchTutorProfile(@Param("query") String query);
 
-       // for filtering profiles
-       @Query("SELECT p FROM Profile p " +
-              "WHERE (:gender IS NULL OR p.gender = :gender) " +
-              "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
-              "AND (:location IS NULL OR p.location = :location) " +
-              "AND (:rate IS NULL OR p.rate <= :rate)")
-       List<Profile> findByFilters(
-              @Param("gender") String gender,
-              @Param("educationLevel") String educationLevel,
-              @Param("location") String location,
-              @Param("rate") Integer rate);
+    @Query("SELECT DISTINCT p FROM Profile p LEFT JOIN p.subjects s " +
+       "WHERE (:gender IS NULL OR p.gender = :gender) " +
+       "AND (:educationLevel IS NULL OR p.educationLevel = :educationLevel) " +
+       "AND (:location IS NULL OR p.location = :location) " +
+       "AND (:rate IS NULL OR p.rate <= :rate) " +
+       "AND (:subjects IS NULL OR s IN :subjects)")
+List<Profile> findByFilters(
+       @Param("subjects") List<String> subjects,
+       @Param("gender") String gender,
+       @Param("educationLevel") String educationLevel,
+       @Param("location") String location,
+       @Param("rate") Integer rate);
 
     @Query("SELECT p.role FROM Profile p WHERE p.username = :username")
     String findRoleByUsername(@Param("username") String username);

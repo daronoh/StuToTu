@@ -47,12 +47,22 @@ const Search = () => {
         setLoading(true);
         try {
             const token = getToken();
-            const params = new URLSearchParams({
-                gender: filters.gender,
-                educationLevel: filters.educationLevel,
-                location: filters.location,
-                rate: filters.rate
-            });
+            const params = new URLSearchParams();
+            if (filters.subjects) {
+                params.append('subjects', filters.subjects);
+            }
+            if (filters.gender) {
+                params.append('gender', filters.gender);
+            }
+            if (filters.educationLevel) {
+                params.append('educationLevel', filters.educationLevel);
+            }
+            if (filters.location) {
+                params.append('location', filters.location);
+            }
+            if (filters.rate) {
+                params.append('rate', filters.rate.toString());
+            }
             const response = await axios.get(`/api/profile/filter?${params.toString()}`, {
                 headers: {
                     'Content-Type': 'application/json',

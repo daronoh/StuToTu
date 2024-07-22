@@ -100,19 +100,19 @@ public class ProfileController {
 
     @GetMapping("/filter")
     public ResponseEntity<List<Profile>> filterProfiles(
+            @RequestParam(required = false) List<String> subjects,
             @RequestParam(required = false) String gender,
             @RequestParam(required = false) String educationLevel,
             @RequestParam(required = false) String location,
             @RequestParam(required = false) Integer rate) {
 
-                System.out.println("Filtering...");
-                System.out.println("Gender: " + gender);
-                System.out.println("Education Level: " + educationLevel);
-                System.out.println("Location: " + location);
-                System.out.println("Rate: " + rate);
-
-        List<Profile> filteredProfiles = userRepository.findByFilters(
-                gender, educationLevel, location, rate);
+                List<Profile> filteredProfiles = userRepository.findByFilters(
+                    subjects,
+                    gender,
+                    educationLevel,
+                    location,
+                    rate
+            );
         return ResponseEntity.ok(filteredProfiles);
     }
 
