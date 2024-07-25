@@ -47,15 +47,15 @@ export const AuthProvider = ({ children }) => {
 
     const getToken = () => {
         console.log('getting token');
-        return auth ? auth?.token : null;
+        return auth ? localStorage.getItem('token') : null;
     };
 
     const getUser = () => {
-        return auth ? auth?.user : null;
+        return auth ? localStorage.getItem('user') : null;
     }
 
     const getRole = () => {
-        return auth ? auth?.role : null;
+        return auth ? localStorage.getItem('role') : null;
     }
 
     return (

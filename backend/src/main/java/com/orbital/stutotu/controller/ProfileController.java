@@ -1,6 +1,7 @@
 package com.orbital.stutotu.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.orbital.stutotu.dto.ProfileEditDTO;
 import com.orbital.stutotu.exception.ResourceNotFoundException;
+import com.orbital.stutotu.model.Event;
 import com.orbital.stutotu.model.Profile;
 import com.orbital.stutotu.model.Review;
 import com.orbital.stutotu.model.Tag;
@@ -127,6 +129,22 @@ public class ProfileController {
             Profile updatedProfile = userRepository.save(reviewFor);
 
             return ResponseEntity.ok(updatedProfile);
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
+        }
+    }
+
+    @GetMapping("/events/{username}")
+    public ResponseEntity<List<Event>> getEventsFromDate(@PathVariable String username, @RequestParam String date) {
+        try {
+            Profile profile = userRepository.findByUsername(username);
+            if (profile == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            }
+            List<Event> filteredEvents = profile.getEvents().stream().filter(event -> event.getDate().equals(date)).collect(Collectors.toList());
+            return ResponseEntity.ok(filteredEvents);
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {

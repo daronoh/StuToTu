@@ -13,14 +13,18 @@ const Calendar = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        fetchEvents(getUser());
-    }, []);
+        fetchEvents(getUser(), selectedDate);
+    }, [selectedDate]);
 
-    const fetchEvents = async (username) => {
+    const fetchEvents = async (username, selectedDate) => {
         try {
-            const response = await axios.get(`/api/events/${username}`, {
+            const formattedDate = selectedDate.toISOString();
+            console.log(formattedDate);
+            const response = await axios.get(`/api/profile/events/${username}`, {
+                params: {date: formattedDate},
                 headers: { 'Authorization': `Bearer ${getToken()}` }
             });
+            console.log(response.data);
             setEvents(response.data);
         } catch (error) {
             console.error('Error fetching events:', error);
@@ -50,7 +54,6 @@ const Calendar = () => {
                 {selectedDate && (
                     <Grid container spacing={2}>
                         {events
-                            .filter(event => event.date === selectedDate.format('YYYY-MM-DD'))
                             .map(event => (
                                 <Grid item key={event.id} xs={12}>
                                     <EventCard event={event} />
