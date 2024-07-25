@@ -86,6 +86,9 @@ public class Profile {
     @Column
     private Double avgRating; // avg = total / num
 
+    @ElementCollection
+    private List<Event> events;
+
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, String role) {
         this.username = username;
         this.password = password;
@@ -101,6 +104,7 @@ public class Profile {
         this.numOfReviews = 0;
         this.totalRating = 0;
         this.avgRating = 0.0;
+        this.events = new ArrayList<>();
     }
 
     public Profile(String username, String password, String firstName, String lastName, String email, String gender, List<String> subjects,
@@ -132,6 +136,7 @@ public class Profile {
         this.numOfReviews = 0;
         this.totalRating = 0;
         this.avgRating = 0.0;
+        this.events = new ArrayList<>();
     }
 
     // Factory methods for creating specific roles

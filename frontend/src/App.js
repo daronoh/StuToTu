@@ -11,6 +11,8 @@ import RegisterTutor from './components/RegisterTutor';
 import RequireAuth from './components/RequireAuth';
 import Search from './components/Search';
 import Unauthorized from './components/Unauthorized';
+import Calendar from './components/calendar/Calendar';
+import EventCard from './components/calendar/EventCard';
 import ChatRoom from './components/chat/ChatRoom';
 import ReviewForm from './components/review/ReviewForm';
 import useAuth from './hooks/useAuth';
@@ -36,6 +38,8 @@ function App() {
         <Route path = "Profile/:username" element={<Profile />} />
         <Route path = "Profile/Edit" element={<ProfileEdit />} />
         <Route path = "ReviewForm" element={<ReviewForm />} />
+        <Route path = "Calendar" element={<Calendar />} />
+        <Route path = "EventCard" element={<EventCard />} />
         </Route>
         {}
         <Route path = "*" element={<Missing />} />

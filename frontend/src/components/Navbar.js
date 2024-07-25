@@ -56,7 +56,7 @@ const Navbar = () => {
             </li>
           )}
           <li>
-            <button onClick={() => navigate('/calendar')} className="link-button">Shared Calendar</button>
+            <button onClick={() => navigate('/calendar')} className="link-button">Calendar</button>
           </li>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
               <Tooltip title="Account settings">
@@ -130,7 +130,7 @@ const Navbar = () => {
           <button className="closebtn" onClick={toggleSideNav}>&times;</button>
           <button onClick={() => navigate('/home')} className="link-button">Home</button>
           <button onClick={handleProfile} className="link-button">My Profile</button>
-          <button onClick={() => navigate('/calendar')} className="link-button">Shared Calendar</button>
+          <button onClick={() => navigate(`/calendar`)} className="link-button">Calendar</button>
           <button onClick={() => navigate(`/profile/edit`)} className="link-button">Settings</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
