@@ -6,15 +6,17 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import EventCard from './EventCard';
+import AddButton from './AddButton';
 
 const Calendar = () => {
     const { getToken, getUser } = useAuth();
     const [selectedDate, setSelectedDate] = useState(null);
     const [events, setEvents] = useState([]);
+    const [reloadEvents, setReloadEvents] = useState(false);
 
     useEffect(() => {
         fetchEvents(getUser(), selectedDate);
-    }, [selectedDate]);
+    }, [selectedDate, reloadEvents]);
 
     const fetchEvents = async (username, selectedDate) => {
         try {
@@ -35,6 +37,10 @@ const Calendar = () => {
         setSelectedDate(newValue);
     };
 
+    const handleButtonSubmit = () => {
+        setReloadEvents(!reloadEvents);
+    }
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box sx={{ width: '100%', mx: 'auto', mt: 5 }}>
@@ -48,6 +54,7 @@ const Calendar = () => {
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
                 />
+                <AddButton onEventAdded={handleButtonSubmit} />
                 <Typography variant="h6" align="center" gutterBottom sx={{ mt: 4 }}>
                     Events on {selectedDate ? selectedDate.format('YYYY-MM-DD') : 'Selected Date'}
                 </Typography>

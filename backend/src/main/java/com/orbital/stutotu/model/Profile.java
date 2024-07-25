@@ -188,6 +188,10 @@ public class Profile {
                 }
             });
     }
+
+    public void createEvent(Event event) {
+        this.events.add(event);
+    }
 }
 
 
