@@ -52,7 +52,6 @@ const Calendar = () => {
                     openTo="day"
                     value={selectedDate}
                     onChange={handleDateChange}
-                    componentsProps={{ PickersActionBar: null }} // to fix: remove cancel ok
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <AddButton onEventAdded={handleButtonSubmit} />

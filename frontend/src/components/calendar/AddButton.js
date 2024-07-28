@@ -9,14 +9,17 @@ import { Container } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import useAuth from '../../hooks/useAuth';
 import axios from '../../api/axios';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import dayjs from 'dayjs';
+
 
 const AddButton = ({ onEventAdded }) => {
     const { getToken, getUser } = useAuth();
     const [open, setOpen] = useState(false);
     const[title, setTitle] = useState('');
     const[description, setDescription] = useState('');
-    const[startTime, setStartTime] = useState('');
-    const[endTime, setEndTime] = useState('');
+    const[startTime, setStartTime] = useState(null);
+    const[endTime, setEndTime] = useState(null);
     const[date, setDate] = useState(null);
 
     const handleOpen = () => {
@@ -25,6 +28,11 @@ const AddButton = ({ onEventAdded }) => {
 
     const handleClose = () => {
         setOpen(false);
+        setTitle('');
+        setDescription('');
+        setStartTime(null);
+        setEndTime(null);
+        setDate(null);
     };
 
     const handleSubmit = async (e) => {
@@ -32,12 +40,14 @@ const AddButton = ({ onEventAdded }) => {
         try {
             const username = getUser();
             const formattedDate = date.toISOString(); // Ensure date is in ISO format
+            const formattedStartTime = startTime.toISOString();
+            const formattedEndTime = endTime.toISOString();
             const eventData = {
                 title: title,
                 description: description,
                 date: formattedDate,
-                startTime: startTime,
-                endTime: endTime
+                startTime: formattedStartTime,
+                endTime: formattedEndTime
             };
             await axios.post(`/api/profile/createEvent/${username}`, eventData, {
                 headers: { 'Authorization': `Bearer ${getToken()}` }
@@ -79,6 +89,15 @@ const AddButton = ({ onEventAdded }) => {
                             value={date}
                             onChange={(e) => setDate(e)}/>
                         </Container>
+                        <Container components={['TimePicker']}>
+                            <TimePicker label="Start time" 
+                            value={startTime}
+                            onChange={(e) => setStartTime(e)}/>
+                            <TimePicker label="End time"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e)}
+                            minTime={startTime ? dayjs(startTime) : null} />
+                        </Container>
                     </LocalizationProvider>
                     <TextField
                         label="Title"
@@ -94,21 +113,6 @@ const AddButton = ({ onEventAdded }) => {
                         margin="normal"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}/>
-                    <TextField
-                        label="Start Time"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}/>
-                    <TextField
-                        label="End Time"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}/>
-                    {/* Add more TextField components for additional fields */}
                     <Button onClick={handleSubmit} variant="contained" color="primary">
                         Submit
                     </Button>

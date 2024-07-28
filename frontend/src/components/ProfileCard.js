@@ -13,7 +13,7 @@ const ProfileCard = ({ profile }) => {
             <br />
             <br />
             <MDBRow>
-              <MDBCol sm={12} md={4}>
+              <MDBCol sm={12}>
                 <div className="container">
                   <img
                     src={profile.profilePicture || defaultProfilePic} 

@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const ChatRoom = () => {
-    const { otherUser } = useParams();
-    const {getToken, getUser} = useAuth();
+    const location = useLocation();
+    const { otherProfile } = location.state || {};
+
+    const { getToken, getUser } = useAuth();
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
     useEffect(() => {
-        fetchMessages();
-    }, []);
+        if (otherProfile) {
+            console.log(otherProfile);
+            fetchMessages();
+        }
+    }, [otherProfile]);
 
     const fetchMessages = async () => {
         try {
-            console.log(`from: ${getUser()}, to: ${otherUser}`);
+            if (!otherProfile) return;
+            console.log(`from: ${getUser()}, to: ${otherProfile.username}`);
             const response = await axios.get(`/api/messages`, { 
                 headers: { 'Authorization': `Bearer ${getToken()}` },
-                params: { from: getUser(), to: otherUser }
+                params: { from: getUser(), to: otherProfile.username }
             });
             setMessages(response.data);
         } catch (error) {
@@ -28,10 +34,14 @@ const ChatRoom = () => {
 
     const sendMessage = async () => {
         try {
-            const message = JSON.stringify({ from: getUser(), to: otherUser, content: newMessage });
-            await axios.post('/api/messages', message, {headers: { 'Authorization': `Bearer ${getToken()}`,
-            'Content-Type': 'application/json' }}
-            );
+            if (!otherProfile) return;
+            const message = JSON.stringify({ from: getUser(), to: otherProfile.username, content: newMessage });
+            await axios.post('/api/messages', message, {
+                headers: { 
+                    'Authorization': `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json'
+                }
+            });
             setNewMessage('');
             fetchMessages(); // Refresh messages after sending
         } catch (error) {
@@ -45,7 +55,7 @@ const ChatRoom = () => {
 
     return (
         <div>
-            <h2>Chat with {otherUser}</h2>
+            <h2>Chat with {otherProfile?.username}</h2>
             <div style={{ height: '400px', overflowY: 'scroll', border: '1px solid #ccc', padding: '10px'}}>
                 {messages.map((message, index) => (
                     <div key={index}>
@@ -54,7 +64,7 @@ const ChatRoom = () => {
                 ))}
             </div>
             <div>
-            <input 
+                <input 
                     className='textbox'
                     type="text" 
                     autoComplete='off'

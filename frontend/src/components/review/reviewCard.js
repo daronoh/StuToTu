@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
 import React from 'react';
 

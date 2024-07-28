@@ -72,7 +72,7 @@ const ProfileEdit = () => {
                 setRate(profileData.rate || 0);
                 setLocation(profileData.location || '');
                 setNewTags((profileData.tags || []).filter(tag => tag.inProfile).map(tag => tag.name));
-                setTagOptions((profileData.tags || []).filter(tag => tag.inProfile));
+                setTagOptions((profileData.tags || []));
 
             } catch (error) {
                 if (error.response?.status === 401) {

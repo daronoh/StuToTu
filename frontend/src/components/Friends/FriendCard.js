@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import defaultProfilePic from '../../assets/default-profile-pic.png';
@@ -24,7 +24,10 @@ const FriendCard = ({ profile }) => {
     return (
       <Card style={{ marginBottom: '10px' }}>
           <CardContent>
-          <CardActionArea component={Link} to={`/ChatRoom/${profile.username}`}> 
+          <CardActionArea 
+            component={Link} 
+            to={`/ChatRoom`}
+            state={{ otherProfile: profile }}>
             <Grid container alignItems="center">
               <Grid item xs={9}>
                 <Typography variant="h5" component="h2">
@@ -36,9 +39,6 @@ const FriendCard = ({ profile }) => {
                 <Typography color="textSecondary">
                   Email: {profile.email}
                 </Typography>
-                <Typography color="textSecondary">
-                  Location: {profile.location}
-                </Typography>
               </Grid>
               <Grid item xs={3}>
                 <Avatar
@@ -48,6 +48,7 @@ const FriendCard = ({ profile }) => {
               </Grid>
             </Grid>
             </CardActionArea>
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Button
               variant="contained"
               color="primary"
@@ -66,6 +67,7 @@ const FriendCard = ({ profile }) => {
             >
                 Remove Friend
             </Button>
+            </Box>
           </CardContent>
         
         

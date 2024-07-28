@@ -1,7 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid, InputAdornment, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import ProfileCard from './ProfileCard';
@@ -14,7 +13,6 @@ const Search = () => {
     const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -114,7 +112,7 @@ const Search = () => {
                         <p>Profile not found.</p>
                     )}
                     {profilesToDisplay.length > 0 && (
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} sx={{ minWidth: '800px', width: '80%', maxWidth: '1500px', margin: '0 auto' }}>
                             {profilesToDisplay.slice(0, 6).map((result) => (
                                 <Grid item key={result.id} xs={12}>
                                     <ProfileCard profile={result} />

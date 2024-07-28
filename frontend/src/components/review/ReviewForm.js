@@ -31,7 +31,7 @@ const LeaveReview = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('/api/profile/review', 
+            await axios.post('/api/profile/review', 
                 JSON.stringify({reviewFor: ReviewForProfile.username, reviewFrom: getUser(), content: review, rating: rating, tags: selectedChips}),
                 {
                     headers: {'Content-Type': 'application/json',

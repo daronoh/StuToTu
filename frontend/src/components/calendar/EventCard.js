@@ -3,9 +3,13 @@ import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import React from 'react';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import dayjs from 'dayjs';
+
 
 const EventCard = ({ event, onEventAdded }) => {
     const { getToken, getUser } = useAuth();
+    const formattedStartTime = dayjs(event.startTime).format('HH:mm');
+    const formattedEndTime = dayjs(event.endTime).format('HH:mm');
 
     const handleDelete = async () => {
         try {
@@ -27,7 +31,7 @@ const EventCard = ({ event, onEventAdded }) => {
                             <CloseIcon />
                         </IconButton>
                 </Box>
-                <Typography color = "textSecondary">{event.startTime} - {event.endTime}</Typography>
+                <Typography color = "textSecondary">{formattedStartTime} - {formattedEndTime}</Typography>
                 <Typography color="textSecondary">{event.description}</Typography>
             </CardContent>
         </Card>

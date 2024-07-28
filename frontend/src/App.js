@@ -32,7 +32,7 @@ function App() {
         {}
         <Route element={<RequireAuth allowedRole={["TUTOR", "STUDENT"]} />}>
         <Route path = "Home" element={<Home />} />
-        <Route path = "ChatRoom/:otherUser" element={<ChatRoom />} />
+        <Route path = "ChatRoom" element={<ChatRoom />} />
         <Route path = "Search" element={<Search />} />
         <Route path = "Profile" element={<Profile />} />
         <Route path = "Profile/:username" element={<Profile />} />

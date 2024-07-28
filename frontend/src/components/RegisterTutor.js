@@ -78,7 +78,7 @@ const RegisterTutor = () => {
         }
         // use axios to submit user and pwd
         try {
-            const response = await axios.post(REGISTER_URL, 
+            await axios.post(REGISTER_URL, 
                 JSON.stringify({username: user, password: pwd, firstName, lastName, email, gender, subjects, educationLevel, location, rate, role}),
                 {
                     headers: { 

@@ -1,4 +1,4 @@
-import { AttachMoney, Close, Done, Email, LocalLibrary, LocationOn, Person, School, TagFaces } from '@mui/icons-material';
+import { AttachMoney, Close, Done, Email, LocalLibrary, LocationOn, Person, School } from '@mui/icons-material';
 import { Box, Button, Card, Chip, CircularProgress, Divider, Grid, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
@@ -259,7 +259,7 @@ const Profile = () => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} >
-                    <Typography variant="h6" align="center">reviews: {profileData.avgRating}/5.0</Typography>
+                    <Typography variant="h6" align="center">reviews: {profileData.avgRating.toFixed(2)}/5.0</Typography>
                 </Grid>
                 {profileData.reviews && profileData.reviews.length > 0 ? (
                     profileData.reviews.map((result, index) => (

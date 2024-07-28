@@ -42,7 +42,7 @@ const Home = () => {
             <div style={{ marginTop: '4rem'}}>
                 <h2 style={{textAlign: 'center'}}>Pending Friend Requests</h2>
                 {pendingRequests.length > 0 ? (
-                    <Grid container spacing={0}>
+                    <Grid sx={{ minWidth: '500px', width: '80%', maxWidth: '800px', margin: '0 auto' }}>
                         {pendingRequests.slice(0, 6).map((result) => (
                             <Grid item key={result.id} xs={12}>
                                 <FriendRequestCard profile={result} />
@@ -56,7 +56,7 @@ const Home = () => {
             <div style={{ marginTop: '4rem'}}>
                 <h2 style={{textAlign: 'center'}}>Friends</h2>
                 {Friends.length > 0 ? (
-                    <Grid container spacing={0}>
+                    <Grid sx={{ minWidth: '500px', width: '80%', maxWidth: '800px', margin: '0 auto' }}>
                         {Friends.slice(0, 6).map((result) => (
                             <Grid item key={result.id} xs={12}>
                                 <FriendCard profile={result} />

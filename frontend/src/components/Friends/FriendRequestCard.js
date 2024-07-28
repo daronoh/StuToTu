@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import defaultProfilePic from '../../assets/default-profile-pic.png';
@@ -9,7 +9,7 @@ const FriendRequestCard = ({profile}) => {
 
     const handleAccept = async () => {
         try {
-            const response = await axios.post(`/api/friends/accept`, 
+            await axios.post(`/api/friends/accept`, 
                 JSON.stringify({requesterUsername: getUser(), receiverUsername: profile.username}), 
                 {
                     headers: {'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const FriendRequestCard = ({profile}) => {
 
     const handleReject = async () => {
         try {
-        const response = await axios.post(`/api/friends/reject`, 
+        await axios.post(`/api/friends/reject`, 
             JSON.stringify({requesterUsername: getUser(), receiverUsername: profile.username}), 
             {
                 headers: {'Content-Type': 'application/json',
@@ -53,12 +53,9 @@ const FriendRequestCard = ({profile}) => {
                 <Typography color="textSecondary">
                   Email: {profile.email}
                 </Typography>
-                <Typography color="textSecondary">
-                  Location: {profile.location}
-                </Typography>
                 </CardActionArea>
                 {getRole() === 'TUTOR' && (
-                <div>
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <Button
                     onClick={handleAccept}
                     variant="contained"
@@ -74,7 +71,7 @@ const FriendRequestCard = ({profile}) => {
                 >
                     Reject
                 </Button>
-                </div>
+                </Box>
             )}
               </Grid>
               <Grid item xs={3}>
