@@ -19,13 +19,13 @@ import useAuth from './hooks/useAuth';
 
 function App() {
 
-  const { auth } = useAuth();
+  const { getToken } = useAuth();
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={auth ? <Navigate to="/Home" /> : <Navigate to="/Login" />} />
-        <Route path="Login" element={auth ? <Navigate to="/Home" /> : <Login />} />
+        <Route path="/" element={getToken() ? <Navigate to="/Home" /> : <Navigate to="/Login" />} />
+        <Route path="Login" element={getToken() ? <Navigate to="/Home" /> : <Login />} />
         <Route path = "RegisterTutor" element={<RegisterTutor />} />
         <Route path = "RegisterStudent" element={<RegisterStudent />} />
         <Route path = "Unauthorized" element={<Unauthorized />} />

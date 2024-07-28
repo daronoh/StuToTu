@@ -5,8 +5,8 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import EventCard from './EventCard';
 import AddButton from './AddButton';
+import EventCard from './EventCard';
 
 const Calendar = () => {
     const { getToken, getUser } = useAuth();
@@ -52,6 +52,7 @@ const Calendar = () => {
                     openTo="day"
                     value={selectedDate}
                     onChange={handleDateChange}
+                    componentsProps={{ PickersActionBar: null }} // to fix: remove cancel ok
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <AddButton onEventAdded={handleButtonSubmit} />
@@ -63,7 +64,7 @@ const Calendar = () => {
                         {events
                             .map(event => (
                                 <Grid item key={event.id} xs={12}>
-                                    <EventCard event={event} />
+                                    <EventCard event={event} onEventAdded={handleButtonSubmit}/>
                                 </Grid>
                             ))}
                     </Grid>

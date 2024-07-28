@@ -168,5 +168,22 @@ public class ProfileController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
         }
     }
+
+    @PostMapping("/deleteEvent/{username}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String username, @RequestBody Event event) {
+        try {
+            Profile profile = userRepository.findByUsername(username);
+            if (profile == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            }
+            profile.deleteEvent(event);
+            userRepository.save(profile);
+            return ResponseEntity.status(HttpStatus.CREATED).body("event deleted");
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
+        }
+    }
 }
 

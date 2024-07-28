@@ -192,6 +192,15 @@ public class Profile {
     public void createEvent(Event event) {
         this.events.add(event);
     }
+
+    public void deleteEvent(Event event) {
+        if (this.events.contains(event)) {
+            System.out.println("event found");
+        } else {
+            System.out.println("event not found");
+        }
+        this.events.remove(event);
+    }
 }
 
 
